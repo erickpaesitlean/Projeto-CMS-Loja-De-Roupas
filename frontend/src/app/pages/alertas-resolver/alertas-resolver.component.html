@@ -1,0 +1,118 @@
+<div class="resolver-container">
+  <div class="resolver-header">
+    <button class="btn-back" (click)="goBack()" type="button" title="Voltar">
+      <app-icon name="arrow-left" [size]="20" color="#64748b" />
+      Voltar
+    </button>
+    <div>
+      <h1 class="page-title">Resolver Problema</h1>
+      <p class="page-subtitle">{{ problem()?.description || 'Carregando...' }}</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando problemas...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <app-icon name="alert-triangle" [size]="48" color="#ef4444" />
+      <p>{{ error() }}</p>
+      <button class="retry-btn" (click)="loadProblem(problemType())">Tentar novamente</button>
+    </div>
+  } @else if (problem() && problem()!.items.length === 0) {
+    <div class="empty-state">
+      <app-icon name="check-circle" [size]="64" color="#10b981" />
+      <h3>Nenhum problema encontrado</h3>
+      <p>Parece que este problema já foi resolvido!</p>
+      <button class="btn-primary" (click)="goBack()">Voltar ao Dashboard</button>
+    </div>
+  } @else if (problem()) {
+    <div class="problem-info">
+      <div class="info-card">
+        <app-icon name="info" [size]="24" color="#3b82f6" />
+        <div>
+          <h3>{{ problem()!.title }}</h3>
+          <p>{{ problem()!.description }}</p>
+          <p class="items-count">{{ problem()!.items.length }} item(ns) encontrado(s)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="items-list">
+      <h2 class="section-title">Itens com Problema</h2>
+      <div class="items-grid">
+        @for (item of problem()!.items; track item.id || item.sku || item.codigoBarras) {
+          @if (item._isGroup && item._groupData) {
+            <!-- Grupo de itens duplicados -->
+            <div class="item-card group-card">
+              <div class="group-header">
+                <div class="group-info">
+                  <h3 class="item-name">
+                    @if (item.sku) {
+                      SKU Duplicado: <code>{{ item.sku }}</code>
+                    } @else if (item.codigoBarras) {
+                      Código Duplicado: <code>{{ item.codigoBarras }}</code>
+                    }
+                  </h3>
+                  <p class="group-count">{{ item.count }} produto(s) com este {{ item.sku ? 'SKU' : 'código' }}</p>
+                </div>
+              </div>
+              
+              <div class="group-items">
+                @for (produto of item._groupData; track produto.id) {
+                  <div class="group-item">
+                    <div class="group-item-info">
+                      <strong>{{ produto.nome }}</strong>
+                      <span class="item-id">ID: {{ produto.id }}</span>
+                    </div>
+                    <button 
+                      class="btn-resolve-small" 
+                      (click)="resolveItem(produto)"
+                      type="button"
+                      title="Editar produto"
+                    >
+                      <app-icon name="edit" [size]="16" color="white" />
+                      Editar
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          } @else {
+            <!-- Item individual -->
+            <div class="item-card">
+              <div class="item-header">
+                <h3 class="item-name">{{ getItemDisplayName(item) }}</h3>
+                @if (item.status) {
+                  <span class="item-status" [class]="'status-' + item.status.toLowerCase()">
+                    {{ item.status }}
+                  </span>
+                }
+              </div>
+              
+              @if (getItemDetails(item)) {
+                <p class="item-details">{{ getItemDetails(item) }}</p>
+              }
+              
+              @if (item.descricao) {
+                <p class="item-description">{{ item.descricao }}</p>
+              }
+
+              <button 
+                class="btn-resolve" 
+                (click)="resolveItem(item)"
+                type="button"
+              >
+                <app-icon name="edit" [size]="18" color="white" />
+                Resolver
+              </button>
+            </div>
+          }
+        }
+      </div>
+    </div>
+  }
+</div>
+

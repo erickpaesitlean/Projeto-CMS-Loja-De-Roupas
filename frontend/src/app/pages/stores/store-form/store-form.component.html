@@ -1,0 +1,267 @@
+<div class="store-form-page">
+  <header class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="onCancel()" type="button" aria-label="Voltar">
+        <app-icon name="arrow-left" [size]="20" />
+      </button>
+      <div>
+        <h1 class="page-title">{{ isEditMode() ? 'Editar Loja' : 'Nova Loja' }}</h1>
+        <p class="page-subtitle">
+          {{ isEditMode() ? 'Atualize os detalhes da loja.' : 'Cadastre uma nova loja física ou online.' }}
+        </p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="loading()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="loading()" form="storeForm">
+        @if (loading()) {
+          <span class="btn-loading">
+            <div class="spinner-small"></div>
+            Salvando...
+          </span>
+        } @else {
+          {{ isEditMode() ? 'Salvar Alterações' : 'Cadastrar Loja' }}
+        }
+      </button>
+    </div>
+  </header>
+
+  <main class="form-content">
+    @if (error()) {
+      <div class="alert alert-error" role="alert">
+        <app-icon name="alert-triangle" [size]="20" />
+        <span>{{ error() }}</span>
+      </div>
+    }
+
+    @if (loading() && !storeForm) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Carregando loja...</p>
+      </div>
+    } @else {
+      <form [formGroup]="storeForm" (ngSubmit)="onSubmit()" id="storeForm" class="store-form">
+        <!-- Informações Básicas -->
+        <div class="form-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <app-icon name="store" [size]="20" />
+            </div>
+            <div>
+              <h3 class="card-title">Informações Básicas</h3>
+              <p class="card-subtitle">Nome, tipo, status e horário de funcionamento.</p>
+            </div>
+          </div>
+          <div class="card-body form-grid">
+            <div class="form-group full-width">
+              <label for="nome" class="form-label">
+                Nome da Loja <span class="required">*</span>
+              </label>
+              <input
+                id="nome"
+                type="text"
+                formControlName="nome"
+                class="form-input"
+                [class.invalid]="isFieldInvalid('nome')"
+                placeholder="Ex: Loja Centro, Loja Shopping, E-commerce..."
+              />
+              @if (getFieldError('nome')) {
+                <span class="error-message">{{ getFieldError('nome') }}</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="tipo" class="form-label">
+                Tipo de Loja <span class="required">*</span>
+              </label>
+              <select
+                id="tipo"
+                formControlName="tipo"
+                class="form-select"
+                [class.invalid]="isFieldInvalid('tipo')"
+              >
+                <option value="FISICA">🏪 Física</option>
+                <option value="ONLINE">🌐 Online</option>
+              </select>
+              @if (getFieldError('tipo')) {
+                <span class="error-message">{{ getFieldError('tipo') }}</span>
+              }
+            </div>
+
+            <div class="form-group">
+              <label for="status" class="form-label">
+                Status <span class="required">*</span>
+              </label>
+              <select
+                id="status"
+                formControlName="status"
+                class="form-select"
+                [class.invalid]="isFieldInvalid('status')"
+              >
+                <option value="ATIVA">✅ Ativa</option>
+                <option value="INATIVA">⏸️ Inativa</option>
+              </select>
+              @if (getFieldError('status')) {
+                <span class="error-message">{{ getFieldError('status') }}</span>
+              }
+            </div>
+
+            <div class="form-group full-width">
+              <label for="horarioFuncionamento" class="form-label">
+                Horário de Funcionamento <span class="required">*</span>
+              </label>
+              <input
+                id="horarioFuncionamento"
+                type="text"
+                formControlName="horarioFuncionamento"
+                class="form-input"
+                [class.invalid]="isFieldInvalid('horarioFuncionamento')"
+                placeholder="Ex: Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h"
+              />
+              <span class="field-hint">Informe os dias e horários de funcionamento</span>
+              @if (getFieldError('horarioFuncionamento')) {
+                <span class="error-message">{{ getFieldError('horarioFuncionamento') }}</span>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Endereço (apenas para lojas físicas) -->
+        @if (isPhysicalStore) {
+          <div class="form-card">
+            <div class="card-header">
+              <div class="card-icon location">
+                <app-icon name="store" [size]="20" />
+              </div>
+              <div>
+                <h3 class="card-title">Endereço</h3>
+                <p class="card-subtitle">Localização da loja física.</p>
+              </div>
+            </div>
+            <div class="card-body form-grid" formGroupName="endereco">
+              <div class="form-group col-2">
+                <label for="logradouro" class="form-label">
+                  Logradouro <span class="required">*</span>
+                </label>
+                <input
+                  id="logradouro"
+                  type="text"
+                  formControlName="logradouro"
+                  class="form-input"
+                  [class.invalid]="isFieldInvalid('logradouro', enderecoForm)"
+                  placeholder="Ex: Rua das Flores, Av. Brasil..."
+                />
+                @if (getFieldError('logradouro', enderecoForm)) {
+                  <span class="error-message">{{ getFieldError('logradouro', enderecoForm) }}</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="numero" class="form-label">
+                  Número <span class="required">*</span>
+                </label>
+                <input
+                  id="numero"
+                  type="text"
+                  formControlName="numero"
+                  class="form-input"
+                  [class.invalid]="isFieldInvalid('numero', enderecoForm)"
+                  placeholder="Ex: 123"
+                />
+                @if (getFieldError('numero', enderecoForm)) {
+                  <span class="error-message">{{ getFieldError('numero', enderecoForm) }}</span>
+                }
+              </div>
+
+              <div class="form-group full-width">
+                <label for="complemento" class="form-label">
+                  Complemento
+                </label>
+                <input
+                  id="complemento"
+                  type="text"
+                  formControlName="complemento"
+                  class="form-input"
+                  placeholder="Ex: Sala 101, Bloco A, Andar 2..."
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="bairro" class="form-label">
+                  Bairro <span class="required">*</span>
+                </label>
+                <input
+                  id="bairro"
+                  type="text"
+                  formControlName="bairro"
+                  class="form-input"
+                  [class.invalid]="isFieldInvalid('bairro', enderecoForm)"
+                  placeholder="Ex: Centro"
+                />
+                @if (getFieldError('bairro', enderecoForm)) {
+                  <span class="error-message">{{ getFieldError('bairro', enderecoForm) }}</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="cidade" class="form-label">
+                  Cidade <span class="required">*</span>
+                </label>
+                <input
+                  id="cidade"
+                  type="text"
+                  formControlName="cidade"
+                  class="form-input"
+                  [class.invalid]="isFieldInvalid('cidade', enderecoForm)"
+                  placeholder="Ex: São Paulo"
+                />
+                @if (getFieldError('cidade', enderecoForm)) {
+                  <span class="error-message">{{ getFieldError('cidade', enderecoForm) }}</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="estado" class="form-label">
+                  Estado (UF) <span class="required">*</span>
+                </label>
+                <input
+                  id="estado"
+                  type="text"
+                  formControlName="estado"
+                  class="form-input"
+                  [class.invalid]="isFieldInvalid('estado', enderecoForm)"
+                  placeholder="Ex: SP"
+                  maxlength="2"
+                  style="text-transform: uppercase;"
+                />
+                @if (getFieldError('estado', enderecoForm)) {
+                  <span class="error-message">{{ getFieldError('estado', enderecoForm) }}</span>
+                }
+              </div>
+
+              <div class="form-group">
+                <label for="cep" class="form-label">
+                  CEP <span class="required">*</span>
+                </label>
+                <input
+                  id="cep"
+                  type="text"
+                  formControlName="cep"
+                  class="form-input"
+                  [class.invalid]="isFieldInvalid('cep', enderecoForm)"
+                  placeholder="Ex: 01234-567"
+                  maxlength="9"
+                />
+                @if (getFieldError('cep', enderecoForm)) {
+                  <span class="error-message">{{ getFieldError('cep', enderecoForm) }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </form>
+    }
+  </main>
+</div>

@@ -1,0 +1,96 @@
+<div class="panel panel-categories">
+  <div class="panel-header">
+    <div class="panel-header-left">
+      <h2>Categorias</h2>
+      <span class="panel-hint">
+        {{ categories().length }} categoria(s) cadastrada(s)
+      </span>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando categorias...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <app-icon name="alert-triangle" [size]="48" />
+      <p>{{ error() }}</p>
+      <button class="btn-primary" (click)="loadCategories()" type="button">Tentar novamente</button>
+    </div>
+  } @else if (categories().length === 0) {
+    <div class="empty-state">
+      <app-icon name="folder" [size]="64" />
+      <h3>Nenhuma categoria cadastrada</h3>
+      <p>Comece criando sua primeira categoria para organizar seu catálogo</p>
+    </div>
+  } @else {
+    <div class="table-wrap" role="region" aria-label="Tabela de categorias">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Slug</th>
+            <th>Categoria Pai</th>
+            <th>Status</th>
+            <th class="actions-column">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (category of categories(); track category.id) {
+            <tr class="row-clickable" (click)="editCategory(category)">
+              <td class="name-cell">
+                <div class="name-content">
+                  <span class="category-name">{{ category.nome }}</span>
+                  @if (category.descricao) {
+                    <span class="description">{{ category.descricao }}</span>
+                  }
+                </div>
+              </td>
+              <td>
+                <code class="code">{{ category.slug }}</code>
+              </td>
+              <td>
+                @if (getCategoryParentName(category.categoriaPaiId) !== '—') {
+                  <span class="parent-badge">
+                    <app-icon name="folder" [size]="14" />
+                    {{ getCategoryParentName(category.categoriaPaiId) }}
+                  </span>
+                } @else {
+                  <span class="no-parent">Categoria Principal</span>
+                }
+              </td>
+              <td>
+                <span class="badge" [class]="getStatusClass(category.status)">
+                  <app-icon [name]="category.status === 'ATIVA' ? 'check-circle' : 'x-circle'" [size]="14" />
+                  <span>{{ getStatusLabel(category.status) }}</span>
+                </span>
+              </td>
+              <td class="actions-cell">
+                <div class="actions-group">
+                  <button
+                    class="icon-action"
+                    (click)="$event.stopPropagation(); editCategory(category)"
+                    title="Editar categoria"
+                    type="button"
+                  >
+                    <app-icon name="edit" [size]="16" />
+                  </button>
+                  <button
+                    class="icon-action danger"
+                    (click)="$event.stopPropagation(); deleteCategory(category.id)"
+                    title="Remover categoria"
+                    type="button"
+                  >
+                    <app-icon name="trash" [size]="16" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

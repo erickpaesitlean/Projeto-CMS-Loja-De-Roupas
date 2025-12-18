@@ -1,0 +1,60 @@
+@if (isOpen) {
+  <div class="modal-overlay" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Remover Loja</h3>
+        <button class="close-btn" (click)="onClose()" type="button" aria-label="Fechar">
+          <app-icon name="x" [size]="20" color="#64748b" />
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-description">
+          Você está prestes a <strong>remover permanentemente</strong> a loja <strong>{{ store.nome }}</strong>.
+        </p>
+
+        @if (loading()) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Verificando produtos e estoque...</p>
+          </div>
+        } @else if (hasProducts) {
+          <div class="danger-box">
+            <app-icon name="alert-triangle" [size]="24" color="#ef4444" />
+            <div>
+              <strong>⚠️ Atenção: Esta ação não pode ser desfeita!</strong>
+              <p>Esta loja possui <strong>{{ products().length }} produto(s)</strong> com estoque cadastrado.</p>
+              <p>Total de unidades que serão removidas: <strong>{{ totalStock() }}</strong></p>
+              <p class="warning-text">
+                Ao remover esta loja, todos os estoques vinculados a ela serão <strong>permanentemente removidos</strong> dos produtos.
+                Os estoques de outras lojas não serão afetados.
+              </p>
+            </div>
+          </div>
+        } @else {
+          <div class="info-box">
+            <app-icon name="info" [size]="24" color="#3b82f6" />
+            <p>Esta loja não possui produtos com estoque cadastrado. A remoção será realizada imediatamente.</p>
+          </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="onConfirm()"
+        >
+          Confirmar Remoção
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+
+
+
+
+

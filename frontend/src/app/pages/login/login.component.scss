@@ -1,0 +1,331 @@
+/* ============================================
+  LOGIN - Split Screen (Arsitech-inspired)
+  Implementação em SCSS (projeto Angular sem Tailwind)
+  ============================================ */
+
+.login-shell {
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  background: var(--color-bg-primary);
+}
+
+/* Left panel (desktop) */
+.login-left {
+  display: none;
+  background: linear-gradient(135deg, var(--color-gray-950) 0%, var(--color-brand-900) 100%);
+  color: var(--color-white);
+  padding: clamp(24px, 4vw, 56px);
+  position: relative;
+  overflow: hidden;
+}
+
+.left-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  max-width: 520px;
+}
+
+.left-symbol {
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.left-symbol-inner {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  display: grid;
+  place-items: center;
+}
+
+.left-symbol-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--color-brand-400), var(--color-brand-700));
+  box-shadow: 0 10px 24px rgba(6, 182, 212, 0.18);
+}
+
+.testimonial {
+  font-size: clamp(16px, 1.35vw, 22px);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.author {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.author-sep {
+  margin: 0 8px;
+  opacity: 0.6;
+}
+
+/* Right panel */
+.login-right {
+  position: relative;
+  background: var(--color-bg-secondary);
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 4vw, 56px);
+  overflow: hidden;
+}
+
+.right-content {
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 2;
+}
+
+.right-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-gray-900);
+}
+
+.logo-mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-brand-500), var(--color-brand-700));
+  box-shadow: 0 14px 30px rgba(6, 182, 212, 0.22);
+}
+
+.logo-text {
+  font-size: 18px;
+}
+
+.title {
+  font-size: clamp(28px, 2.1vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-gray-900);
+  font-weight: 800;
+  margin: 4px 0 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--color-gray-600); /* contraste (AA) */
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Decorative shapes (subtle) */
+/* Alert */
+.alert {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 14px;
+  margin: 14px 0 16px;
+  font-size: 14px;
+}
+
+.alert-error {
+  background: var(--color-error-50);
+  border: 1px solid var(--color-error-100);
+  color: var(--color-error-700);
+}
+
+.alert-icon {
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-gray-700);
+}
+
+.req {
+  color: var(--color-error-500);
+}
+
+.control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.control-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--color-gray-400);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-action {
+  position: absolute;
+  right: 8px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--color-gray-400);
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--color-gray-100);
+    color: var(--color-gray-600);
+  }
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+  border-radius: 14px;
+  border: 1px solid var(--color-gray-300);
+  background: var(--color-bg-secondary);
+  padding: 0 44px 0 42px;
+  font-size: 14px;
+  color: var(--color-gray-900);
+  transition: all 0.15s ease;
+
+  &::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  &:hover {
+    border-color: var(--color-gray-400);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-brand-500);
+    box-shadow: var(--shadow-focus);
+  }
+
+  &.invalid {
+    border-color: var(--color-error-500);
+    box-shadow: var(--shadow-focus-error);
+  }
+}
+
+.field-error {
+  font-size: 12px;
+  color: var(--color-error-600);
+}
+
+/* Primary Button */
+.btn-primary {
+  margin-top: 8px;
+  height: 48px;
+  width: 100%;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+  background: var(--color-brand-500);
+  box-shadow: 0 14px 30px rgba(6, 182, 212, 0.22);
+  transition: transform 0.12s ease, filter 0.12s ease, box-shadow 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: var(--color-brand-600);
+    box-shadow: 0 16px 34px rgba(6, 182, 212, 0.26);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.985);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+  RESPONSIVE
+  ============================================ */
+@media (min-width: 1024px) {
+  .login-shell {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+  .login-left {
+    display: block;
+  }
+}

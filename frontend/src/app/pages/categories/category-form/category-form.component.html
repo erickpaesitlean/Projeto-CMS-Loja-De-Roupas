@@ -1,0 +1,127 @@
+<div class="category-form-page">
+  <header class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="onCancel()" type="button" aria-label="Voltar">
+        <app-icon name="arrow-left" [size]="20" />
+      </button>
+      <div>
+        <h1 class="page-title">{{ isEditMode() ? 'Editar Categoria' : 'Nova Categoria' }}</h1>
+        <p class="page-subtitle">
+          {{ isEditMode() ? 'Atualize os detalhes da categoria.' : 'Crie uma nova categoria para organizar seu catálogo.' }}
+        </p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="loading()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid || loading()" form="categoryForm">
+        @if (loading()) {
+          <span class="btn-loading">
+            <div class="spinner-small"></div>
+            Salvando...
+          </span>
+        } @else {
+          {{ isEditMode() ? 'Atualizar' : 'Criar' }} Categoria
+        }
+      </button>
+    </div>
+  </header>
+
+  <main class="form-content">
+    @if (error()) {
+      <div class="alert alert-error" role="alert">
+        <app-icon name="alert-triangle" [size]="20" />
+        <span>{{ error() }}</span>
+      </div>
+    }
+
+    <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" id="categoryForm" class="category-form">
+      <div class="form-card">
+        <div class="card-header">
+          <h3 class="card-title">Informações da Categoria</h3>
+          <p class="card-subtitle">Nome, descrição e organização hierárquica.</p>
+        </div>
+        <div class="card-body form-grid">
+          <div class="form-group full-width">
+            <label for="nome" class="form-label">
+              Nome da Categoria <span class="required">*</span>
+            </label>
+            <input
+              id="nome"
+              type="text"
+              formControlName="nome"
+              class="form-input"
+              [class.invalid]="isFieldInvalid('nome')"
+              placeholder="Ex: Camisetas, Calçados, Acessórios..."
+            />
+            @if (getFieldError('nome')) {
+              <span class="error-message">{{ getFieldError('nome') }}</span>
+            }
+          </div>
+
+          <div class="form-group full-width">
+            <label for="descricao" class="form-label">
+              Descrição <span class="required">*</span>
+            </label>
+            <textarea
+              id="descricao"
+              formControlName="descricao"
+              class="form-textarea"
+              [class.invalid]="isFieldInvalid('descricao')"
+              rows="4"
+              placeholder="Descreva a categoria de forma clara e objetiva..."
+            ></textarea>
+            @if (getFieldError('descricao')) {
+              <span class="error-message">{{ getFieldError('descricao') }}</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="categoriaPaiId" class="form-label">
+              Categoria Pai
+            </label>
+            <select
+              id="categoriaPaiId"
+              formControlName="categoriaPaiId"
+              class="form-select"
+            >
+              <option [value]="null">Nenhuma (Categoria Principal)</option>
+              @for (parent of parentCategories(); track parent.id) {
+                <option [value]="parent.id">{{ parent.nome }}</option>
+              }
+            </select>
+            <span class="field-hint">Deixe vazio para criar uma categoria principal</span>
+          </div>
+
+          <div class="form-group">
+            <label for="status" class="form-label">
+              Status <span class="required">*</span>
+            </label>
+            <select
+              id="status"
+              formControlName="status"
+              class="form-select"
+              [class.invalid]="isFieldInvalid('status')"
+            >
+              <option value="ATIVA">Ativa</option>
+              <option value="INATIVA">Inativa</option>
+            </select>
+            @if (getFieldError('status')) {
+              <span class="error-message">{{ getFieldError('status') }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  @if (currentCategory()) {
+    <app-category-deactivate-modal
+      [category]="currentCategory()!"
+      [isOpen]="deactivateModalOpen()"
+      (close)="closeDeactivateModal()"
+      (confirm)="onDeactivateConfirm($event)"
+    />
+  }
+</div>

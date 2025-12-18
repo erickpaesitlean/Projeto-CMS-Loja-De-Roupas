@@ -1,0 +1,473 @@
+<div class="product-form-page">
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="onCancel()" type="button" aria-label="Voltar">
+        <app-icon name="arrow-left" [size]="20" />
+      </button>
+      <div class="header-text">
+        <h1 class="page-title">{{ isEditMode() ? 'Editar Produto' : 'Novo Produto' }}</h1>
+        <p class="page-subtitle">
+          {{ isEditMode() ? 'Atualize as informações do produto' : 'Preencha os dados para cadastrar um novo produto' }}
+        </p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="loading()">
+        Cancelar
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-primary" 
+        (click)="onSubmit()"
+        [disabled]="productForm.invalid || loading() || !canSave()"
+      >
+        @if (loading()) {
+          <span class="btn-loading">
+            <div class="spinner-btn"></div>
+            Salvando...
+          </span>
+        } @else {
+          {{ isEditMode() ? 'Atualizar' : 'Criar Produto' }}
+        }
+      </button>
+    </div>
+  </header>
+
+  <!-- Alerts -->
+  @if (error()) {
+    <div class="alert alert-error">
+      <app-icon name="alert-triangle" [size]="20" />
+      <span>{{ error() }}</span>
+      <button type="button" class="alert-close" (click)="error.set(null)">
+        <app-icon name="x" [size]="16" />
+      </button>
+    </div>
+  }
+
+  @if (activationValidation() && !activationValidation()!.canActivate) {
+    <div class="alert alert-warning">
+      <app-icon name="alert-triangle" [size]="20" />
+      <div class="alert-content">
+        <strong>Produto não pode ser ativado:</strong>
+        <ul>
+          @for (reason of activationValidation()!.reasons; track reason) {
+            <li>{{ reason }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  }
+
+  <!-- Form Content -->
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form-content">
+    <div class="form-grid">
+      <!-- Main Column -->
+      <div class="form-main">
+        <!-- Informações Básicas -->
+        <section class="form-card">
+          <div class="card-header">
+            <h2 class="card-title">Informações Básicas</h2>
+            <p class="card-description">Dados essenciais do produto</p>
+          </div>
+          <div class="card-body">
+            <div class="field-group">
+              <label for="nome" class="field-label">
+                Nome do Produto <span class="required">*</span>
+              </label>
+              <input
+                id="nome"
+                type="text"
+                formControlName="nome"
+                class="field-input"
+                [class.invalid]="isFieldInvalid('nome')"
+                placeholder="Ex: Camiseta Básica Algodão"
+              />
+              @if (getFieldError('nome')) {
+                <span class="field-error">{{ getFieldError('nome') }}</span>
+              }
+            </div>
+
+            <div class="field-group">
+              <label for="descricao" class="field-label">
+                Descrição <span class="required">*</span>
+              </label>
+              <textarea
+                id="descricao"
+                formControlName="descricao"
+                class="field-textarea"
+                [class.invalid]="isFieldInvalid('descricao')"
+                rows="4"
+                placeholder="Descreva o produto em detalhes: material, caimento, ocasião de uso..."
+              ></textarea>
+              @if (getFieldError('descricao')) {
+                <span class="field-error">{{ getFieldError('descricao') }}</span>
+              }
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="categoriaId" class="field-label">
+                  Categoria <span class="required">*</span>
+                </label>
+                <select
+                  id="categoriaId"
+                  formControlName="categoriaId"
+                  class="field-select"
+                  [class.invalid]="isFieldInvalid('categoriaId')"
+                >
+                  <option [value]="null" disabled>Selecione uma categoria</option>
+                  @for (category of categories(); track category.id) {
+                    <option [value]="category.id">{{ category.nome }}</option>
+                  }
+                </select>
+                @if (getFieldError('categoriaId')) {
+                  <span class="field-error">{{ getFieldError('categoriaId') }}</span>
+                }
+              </div>
+
+              <div class="field-group">
+                <label for="status" class="field-label">
+                  Status <span class="required">*</span>
+                </label>
+                <select
+                  id="status"
+                  formControlName="status"
+                  class="field-select"
+                  [class.invalid]="isFieldInvalid('status')"
+                >
+                  <option value="INATIVO">Inativo (Rascunho)</option>
+                  <option value="ATIVO">Ativo (Publicado)</option>
+                </select>
+                @if (getFieldError('status')) {
+                  <span class="field-error">{{ getFieldError('status') }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Preços -->
+        <section class="form-card">
+          <div class="card-header">
+            <h2 class="card-title">Preços</h2>
+            <p class="card-description">Defina os valores do produto</p>
+          </div>
+          <div class="card-body">
+            <div class="field-row">
+              <div class="field-group">
+                <label for="preco" class="field-label">
+                  Preço Original <span class="required">*</span>
+                </label>
+                <div class="field-input-wrapper">
+                  <span class="field-prefix">R$</span>
+                  <input
+                    id="preco"
+                    type="text"
+                    inputmode="decimal"
+                    formControlName="preco"
+                    class="field-input with-prefix"
+                    [class.invalid]="isFieldInvalid('preco')"
+                    (input)="onCurrencyInput('preco', $event)"
+                    (blur)="onCurrencyBlur('preco')"
+                    placeholder="0,00"
+                  />
+                </div>
+                @if (getFieldError('preco')) {
+                  <span class="field-error">{{ getFieldError('preco') }}</span>
+                }
+              </div>
+
+              <div class="field-group">
+                <label for="precoPromocional" class="field-label">
+                  Preço Promocional
+                  @if (getDiscountPercent()) {
+                    <span class="discount-badge">-{{ getDiscountPercent() }}%</span>
+                  }
+                </label>
+                <div class="field-input-wrapper">
+                  <span class="field-prefix promo">R$</span>
+                  <input
+                    id="precoPromocional"
+                    type="text"
+                    inputmode="decimal"
+                    formControlName="precoPromocional"
+                    class="field-input with-prefix promo"
+                    [class.invalid]="isFieldInvalid('precoPromocional')"
+                    [class.warning]="!!promoPriceLimitMessage()"
+                    (input)="onCurrencyInput('precoPromocional', $event)"
+                    (blur)="onCurrencyBlur('precoPromocional')"
+                    placeholder="0,00"
+                  />
+                </div>
+                @if (getFieldError('precoPromocional')) {
+                  <span class="field-error">{{ getFieldError('precoPromocional') }}</span>
+                }
+                @if (promoPriceLimitMessage()) {
+                  <p class="field-hint warning">
+                    <app-icon name="info" [size]="14" />
+                    {{ promoPriceLimitMessage() }}
+                  </p>
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Identificação -->
+        <section class="form-card">
+          <div class="card-header">
+            <h2 class="card-title">Identificação</h2>
+            <p class="card-description">Códigos únicos para controle de estoque</p>
+          </div>
+          <div class="card-body">
+            <div class="field-row">
+              <div class="field-group">
+                <label for="sku" class="field-label">
+                  SKU <span class="required">*</span>
+                </label>
+                <input
+                  id="sku"
+                  type="text"
+                  formControlName="sku"
+                  class="field-input mono"
+                  [class.invalid]="isFieldInvalid('sku')"
+                  placeholder="CAM-BRANCA-001"
+                />
+                @if (getFieldError('sku')) {
+                  <span class="field-error">{{ getFieldError('sku') }}</span>
+                }
+              </div>
+
+              <div class="field-group">
+                <label for="codigoBarras" class="field-label">
+                  Código de Barras (EAN) <span class="required">*</span>
+                </label>
+                <input
+                  id="codigoBarras"
+                  type="text"
+                  formControlName="codigoBarras"
+                  class="field-input mono"
+                  [class.invalid]="isFieldInvalid('codigoBarras')"
+                  placeholder="7891234567890"
+                />
+                @if (getFieldError('codigoBarras')) {
+                  <span class="field-error">{{ getFieldError('codigoBarras') }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Imagens -->
+        <section class="form-card">
+          <div class="card-header">
+            <h2 class="card-title">Imagens do Produto</h2>
+            <p class="card-description">
+              Adicione até 8 imagens • {{ getTotalImagens() }}/8 utilizadas
+            </p>
+          </div>
+          <div class="card-body">
+            <!-- Dropzone -->
+            <div class="upload-dropzone" [class.has-images]="getTotalImagens() > 0">
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                multiple
+                (change)="onFileSelected($event)"
+                class="upload-input"
+              />
+              <label for="file-upload" class="upload-label">
+                <div class="upload-icon">
+                  <app-icon name="upload" [size]="32" />
+                </div>
+                <div class="upload-text">
+                  <span class="upload-title">Clique para selecionar</span>
+                  <span class="upload-hint">ou arraste as imagens aqui</span>
+                </div>
+                <span class="upload-formats">JPG, PNG, GIF ou WebP • Máx. 5MB cada</span>
+              </label>
+            </div>
+
+            <!-- Images Grid -->
+            @if (getTotalImagens() > 0) {
+              <div class="images-grid">
+                <!-- Saved Images -->
+                @for (imagem of imagensUrls(); track $index) {
+                  <div class="image-card">
+                    <img 
+                      [src]="getImagemUrl(imagem)" 
+                      alt="Imagem do produto" 
+                      (error)="onImageError($event, imagem)"
+                      (load)="onImageLoad($event, imagem)"
+                    />
+                    <button
+                      type="button"
+                      class="image-remove"
+                      (click)="removeImagem($index)"
+                      title="Remover imagem"
+                    >
+                      <app-icon name="trash" [size]="16" />
+                    </button>
+                    @if ($index === 0) {
+                      <span class="image-badge primary">Principal</span>
+                    }
+                  </div>
+                }
+                <!-- Preview Images (uploading) -->
+                @for (previewUrl of previewUrls(); track $index; let i = $index) {
+                  <div class="image-card uploading" [class.is-uploading]="isUploading(i)">
+                    @if (isUploading(i)) {
+                      <div class="upload-progress">
+                        <div class="spinner-upload"></div>
+                        <span>Enviando...</span>
+                      </div>
+                    }
+                    <img [src]="previewUrl" alt="Preview" [class.dimmed]="isUploading(i)" />
+                    <button
+                      type="button"
+                      class="image-remove"
+                      [disabled]="isUploading(i)"
+                      (click)="removeSelectedFile(i)"
+                      [title]="isUploading(i) ? 'Aguarde o upload' : 'Remover'"
+                    >
+                      <app-icon name="x" [size]="16" />
+                    </button>
+                    <span class="image-badge new">Novo</span>
+                  </div>
+                }
+              </div>
+            }
+
+            @if (imagensUrls().length === 0 && previewUrls().length === 0) {
+              <p class="field-hint warning">
+                <app-icon name="info" [size]="14" />
+                Pelo menos 1 imagem é necessária para ativar o produto
+              </p>
+            }
+          </div>
+        </section>
+      </div>
+
+      <!-- Sidebar Column -->
+      <aside class="form-sidebar">
+        <!-- Variações -->
+        <section class="form-card">
+          <div class="card-header">
+            <h2 class="card-title">Tamanhos</h2>
+          </div>
+          <div class="card-body">
+            <div class="chips-grid">
+              @for (tamanho of tamanhosPadrao; track tamanho) {
+                <label class="chip" [class.selected]="isTamanhoSelected(tamanho)">
+                  <input
+                    type="checkbox"
+                    [checked]="isTamanhoSelected(tamanho)"
+                    (change)="toggleTamanho(tamanho)"
+                  />
+                  <span>{{ tamanho }}</span>
+                </label>
+              }
+            </div>
+
+            @if (tamanhosCustomizados().length > 0) {
+              <div class="custom-chips">
+                @for (tamanho of tamanhosCustomizados(); track tamanho) {
+                  <span class="chip selected custom">
+                    {{ tamanho }}
+                    <button type="button" (click)="removeCustomTamanho(tamanho)">
+                      <app-icon name="x" [size]="12" />
+                    </button>
+                  </span>
+                }
+              </div>
+            }
+
+            <div class="add-custom">
+              <input
+                type="text"
+                class="field-input small"
+                placeholder="Tamanho personalizado"
+                #tamanhoInput
+                (keyup.enter)="addCustomTamanho(tamanhoInput.value); tamanhoInput.value = ''"
+              />
+              <button 
+                type="button" 
+                class="btn-add"
+                (click)="addCustomTamanho(tamanhoInput.value); tamanhoInput.value = ''"
+              >
+                <app-icon name="plus" [size]="16" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Cores -->
+        <section class="form-card">
+          <div class="card-header">
+            <h2 class="card-title">Cores</h2>
+          </div>
+          <div class="card-body">
+            @if (hasCores()) {
+              <div class="color-chips">
+                @for (cor of getCores(); track cor) {
+                  <span class="color-chip">
+                    {{ cor }}
+                    <button type="button" (click)="removeCor(cor)">
+                      <app-icon name="x" [size]="12" />
+                    </button>
+                  </span>
+                }
+              </div>
+            }
+
+            <div class="add-custom">
+              <input
+                type="text"
+                class="field-input small"
+                placeholder="Adicionar cor"
+                #corInput
+                (keyup.enter)="addCor(corInput.value); corInput.value = ''"
+              />
+              <button 
+                type="button" 
+                class="btn-add"
+                (click)="addCor(corInput.value); corInput.value = ''"
+              >
+                <app-icon name="plus" [size]="16" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Estoque -->
+        <section class="form-card">
+          <div class="card-header">
+            <h2 class="card-title">Estoque por Loja</h2>
+          </div>
+          <div class="card-body">
+            <div class="stock-list">
+              @for (control of estoquePorLojaFormArray.controls; track $index) {
+                <div class="stock-item">
+                  <label class="stock-label">
+                    <app-icon name="store" [size]="16" />
+                    {{ getLojaName(control.get('lojaId')?.value) }}
+                  </label>
+                  <input
+                    type="text"
+                    inputmode="numeric"
+                    [formControl]="getQuantidadeControl($index)"
+                    class="stock-input"
+                    placeholder="0"
+                    (input)="onStockInput($index, $event)"
+                  />
+                </div>
+              }
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,57 @@
+@if (isOpen) {
+  <div class="modal-overlay" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Remover Produto</h3>
+        <button class="close-btn" (click)="onClose()" type="button" aria-label="Fechar">
+          <app-icon name="x" [size]="20" color="#64748b" />
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-description">
+          Você está prestes a remover permanentemente o produto <strong>{{ product.nome }}</strong>.
+        </p>
+
+        @if (loading()) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Verificando se pode ser removido...</p>
+          </div>
+        } @else if (canDelete() === true) {
+          <div class="warning-box">
+            <app-icon name="alert-triangle" [size]="24" color="#f59e0b" />
+            <div>
+              <strong>Atenção!</strong>
+              <p>Esta ação não pode ser desfeita. O produto será removido permanentemente.</p>
+            </div>
+          </div>
+        } @else if (canDelete() === false) {
+          <div class="error-box">
+            <app-icon name="x-circle" [size]="24" color="#ef4444" />
+            <div>
+              <strong>Não é possível remover este produto</strong>
+              <p>{{ deleteReason() }}</p>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+        @if (canDelete()) {
+          <button type="button" class="btn btn-danger" (click)="onConfirm()">
+            Confirmar Remoção
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+}
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+<div class="atalhos-container">
+  <div class="section-header">
+    <h2 class="section-title">Atalhos Rápidos</h2>
+  </div>
+  <div class="atalhos-grid">
+    @for (atalho of atalhos; track atalho.titulo) {
+      <a [routerLink]="atalho.rota" class="atalho-card" [style.--accent-color]="atalho.cor">
+        <div class="atalho-icon-wrapper">
+          <app-icon [name]="atalho.icone" [size]="24" [color]="atalho.cor" />
+        </div>
+        <div class="atalho-content">
+          <h3 class="atalho-titulo">{{ atalho.titulo }}</h3>
+          <p class="atalho-descricao">{{ atalho.descricao }}</p>
+        </div>
+      </a>
+    }
+  </div>
+</div>
+

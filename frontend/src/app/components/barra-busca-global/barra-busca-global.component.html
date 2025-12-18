@@ -1,0 +1,90 @@
+<div class="busca-container">
+  <div class="busca-wrapper">
+    <div class="busca-icon-wrapper">
+      <app-icon name="search" [size]="20" color="#64748b" />
+    </div>
+    <input
+      type="text"
+      class="busca-input"
+      placeholder="Buscar produtos, categorias, lojas ou SKUs..."
+      [value]="termoBusca()"
+      (input)="onInput($event)"
+      (focus)="mostrarResultados.set(true)"
+    />
+    @if (termoBusca().length > 0) {
+      <button
+        class="busca-clear"
+        (click)="termoBusca.set(''); mostrarResultados.set(false)"
+        type="button"
+        aria-label="Limpar busca"
+      >
+        <app-icon name="x" [size]="18" color="#64748b" />
+      </button>
+    }
+  </div>
+
+  @if (mostrarResultados() && resultados() && getTotalResultados() > 0) {
+    <div class="resultados-container">
+      <div class="resultados-header">
+        <span class="resultados-count">{{ getTotalResultados() }} resultado(s) encontrado(s)</span>
+        <button class="fechar-btn" (click)="fecharResultados()" type="button" aria-label="Fechar">
+          <app-icon name="x" [size]="18" color="#64748b" />
+        </button>
+      </div>
+      <div class="resultados-content">
+        @if (resultados()!.produtos.length > 0) {
+          <div class="resultado-grupo">
+            <h4 class="grupo-titulo">Produtos</h4>
+            @for (produto of resultados()!.produtos; track produto.id) {
+              <div class="resultado-item" (click)="navegarParaDetalhesProduto(produto.id)">
+                <div class="resultado-icon-wrapper">
+                  <app-icon name="package" [size]="18" color="#3b82f6" />
+                </div>
+                <div class="resultado-text">
+                  <div class="resultado-nome">{{ produto.nome }}</div>
+                  <div class="resultado-detalhe">SKU: {{ produto.sku }}</div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (resultados()!.categorias.length > 0) {
+          <div class="resultado-grupo">
+            <h4 class="grupo-titulo">Categorias</h4>
+            @for (categoria of resultados()!.categorias; track categoria.id) {
+              <div class="resultado-item">
+                <div class="resultado-icon-wrapper">
+                  <app-icon name="folder" [size]="18" color="#8b5cf6" />
+                </div>
+                <div class="resultado-nome">{{ categoria.nome }}</div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (resultados()!.lojas.length > 0) {
+          <div class="resultado-grupo">
+            <h4 class="grupo-titulo">Lojas</h4>
+            @for (loja of resultados()!.lojas; track loja.id) {
+              <div class="resultado-item">
+                <div class="resultado-icon-wrapper">
+                  <app-icon name="store" [size]="18" color="#f59e0b" />
+                </div>
+                <div class="resultado-nome">{{ loja.nome }}</div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  } @else if (mostrarResultados() && termoBusca().length >= 2 && resultados() && getTotalResultados() === 0) {
+    <div class="resultados-container">
+      <div class="sem-resultados">
+        <app-icon name="info" [size]="32" color="#cbd5e1" />
+        <p>Nenhum resultado encontrado</p>
+      </div>
+    </div>
+  }
+</div>
+

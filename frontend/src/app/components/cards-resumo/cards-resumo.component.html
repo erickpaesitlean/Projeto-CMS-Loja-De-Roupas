@@ -1,0 +1,16 @@
+<div class="cards-grid">
+  @for (kpi of kpis; track kpi.titulo) {
+    <div class="card" [routerLink]="kpi.rota || '#'" [class.clickable]="kpi.rota">
+      <div class="card-icon-wrapper" [style.background]="kpi.cor + '15'">
+        <app-icon [name]="kpi.icone" [size]="24" [color]="kpi.cor" />
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">{{ kpi.titulo }}</h3>
+        <div class="card-value" [style.color]="kpi.cor">
+          {{ kpi.valor }}
+        </div>
+      </div>
+    </div>
+  }
+</div>
+

@@ -1,0 +1,932 @@
+{
+  "produtos": [
+    {
+      "id": "1",
+      "nome": "Camiseta Básica Fofinha",
+      "descricao": "Camiseta básica de algodão 100%, ideal para o dia a dia. Confortável e versátil.",
+      "categoriaId": 1,
+      "preco": 49.9,
+      "precoPromocional": 39.9,
+      "sku": "CAM-BRANCA-001",
+      "codigoBarras": "7891234567890",
+      "tamanhos": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "cores": [
+        "Branco"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": "1",
+          "quantidade": 25
+        },
+        {
+          "lojaId": "2",
+          "quantidade": 20
+        },
+        {
+          "lojaId": "3",
+          "quantidade": 15
+        },
+        {
+          "lojaId": "4",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "7c9d",
+          "quantidade": 0
+        }
+      ],
+      "imagens": [
+        "https://picsum.photos/400/400?random=1",
+        "https://picsum.photos/400/400?random=2"
+      ],
+      "status": "ATIVO",
+      "createdAt": "2024-01-10T10:00:00Z",
+      "updatedAt": "2025-12-15T18:39:59.927Z"
+    },
+    {
+      "id": "2",
+      "nome": "Calça Jeans Skinny Super Feia",
+      "descricao": "Calça jeans skinny com elastano para maior conforto. Modelagem ajustada e moderna.",
+      "categoriaId": 2,
+      "preco": 129.9,
+      "precoPromocional": null,
+      "sku": "CAL-JEANS-002",
+      "codigoBarras": "7891234567891",
+      "tamanhos": [
+        "36",
+        "38",
+        "40",
+        "42",
+        "44"
+      ],
+      "cores": [
+        "Azul Claro",
+        "Azul Escuro"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": "1",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "2",
+          "quantidade": 5
+        },
+        {
+          "lojaId": "3",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "4",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "7c9d",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "d1c8",
+          "quantidade": 0
+        }
+      ],
+      "imagens": [
+        "https://picsum.photos/400/400?random=11"
+      ],
+      "status": "ATIVO",
+      "createdAt": "2024-01-08T09:00:00Z",
+      "updatedAt": "2025-12-15T20:01:00.286Z"
+    },
+    {
+      "id": "3",
+      "nome": "Vestido Floral Verde",
+      "descricao": "Vestido midi com estampa floral delicada. Perfeito para ocasiões especiais.",
+      "categoriaId": 3,
+      "preco": 89.9,
+      "precoPromocional": 69.9,
+      "sku": "VES-FLORAL-003",
+      "codigoBarras": "7891234567892",
+      "tamanhos": [
+        "P",
+        "M",
+        "G"
+      ],
+      "cores": [
+        "Rosa",
+        "Azul"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": "1",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "2",
+          "quantidade": 8
+        },
+        {
+          "lojaId": "3",
+          "quantidade": 4
+        },
+        {
+          "lojaId": "4",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "7c9d",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "d1c8",
+          "quantidade": 0
+        }
+      ],
+      "imagens": [
+        "https://picsum.photos/400/400?random=7"
+      ],
+      "status": "ATIVO",
+      "createdAt": "2024-01-05T11:00:00Z",
+      "updatedAt": "2025-12-16T13:42:14.552Z"
+    },
+    {
+      "id": "4",
+      "nome": "Jaqueta de Couro Legitimo",
+      "descricao": "Jaqueta de couro legítimo, corte clássico e atemporal. Peça versátil para qualquer estação.",
+      "categoriaId": 4,
+      "preco": 299.9,
+      "precoPromocional": null,
+      "sku": "JAQ-COURO-004",
+      "codigoBarras": "7891234567893",
+      "tamanhos": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "cores": [
+        "Preto",
+        "Marrom"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": "1",
+          "quantidade": 3
+        },
+        {
+          "lojaId": "2",
+          "quantidade": 2
+        },
+        {
+          "lojaId": "3",
+          "quantidade": 3
+        },
+        {
+          "lojaId": "4",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "7c9d",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "d1c8",
+          "quantidade": 0
+        }
+      ],
+      "imagens": [
+        "https://picsum.photos/400/400?random=4",
+        "https://picsum.photos/400/400?random=5",
+        "https://picsum.photos/400/400?random=6"
+      ],
+      "status": "ATIVO",
+      "createdAt": "2024-01-15T11:45:00Z",
+      "updatedAt": "2025-12-15T19:33:59.988Z"
+    },
+    {
+      "id": "5",
+      "nome": "Shorts Esportivo",
+      "descricao": "Shorts esportivo com tecido tecnológico, ideal para atividades físicas e lazer.",
+      "categoriaId": 5,
+      "preco": 59.9,
+      "precoPromocional": 49.9,
+      "sku": "SHO-ESPORT-005",
+      "codigoBarras": "7891234567894",
+      "tamanhos": [
+        "P",
+        "M",
+        "G"
+      ],
+      "cores": [
+        "Preto",
+        "Cinza",
+        "Azul"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": 1,
+          "quantidade": 15
+        },
+        {
+          "lojaId": 2,
+          "quantidade": 10
+        }
+      ],
+      "imagens": [
+        "https://picsum.photos/400/400?random=8"
+      ],
+      "status": "ATIVO",
+      "createdAt": "2024-01-12T08:00:00Z",
+      "updatedAt": "2024-01-14T16:00:00Z"
+    },
+    {
+      "id": "6",
+      "nome": "Blusa de Manga Longa Topperson",
+      "descricao": "Blusa de manga longa em malha macia, perfeita para o inverno.",
+      "categoriaId": 1,
+      "preco": 79.9,
+      "precoPromocional": null,
+      "sku": "BLU-MANGA-006",
+      "codigoBarras": "7891234567895",
+      "tamanhos": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "cores": [
+        "Branco",
+        "Preto",
+        "Cinza"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": "1",
+          "quantidade": 20
+        },
+        {
+          "lojaId": "2",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "3",
+          "quantidade": 10
+        },
+        {
+          "lojaId": "4",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "7c9d",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "d1c8",
+          "quantidade": 0
+        }
+      ],
+      "imagens": [],
+      "status": "INATIVO",
+      "createdAt": "2024-01-09T14:00:00Z",
+      "updatedAt": "2025-12-15T20:01:27.574Z"
+    },
+    {
+      "id": "7",
+      "nome": "Saia Midi Fade",
+      "descricao": "Saia midi plissada, elegante e versátil para o trabalho ou eventos.",
+      "categoriaId": 3,
+      "preco": 69.9,
+      "precoPromocional": null,
+      "sku": "SAI-MIDI-007",
+      "codigoBarras": "7891234567896",
+      "tamanhos": [
+        "P",
+        "M",
+        "G"
+      ],
+      "cores": [
+        "Preto",
+        "Bege"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": "1",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "2",
+          "quantidade": 10
+        },
+        {
+          "lojaId": "3",
+          "quantidade": 5
+        },
+        {
+          "lojaId": "4",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "7c9d",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "d1c8",
+          "quantidade": 0
+        }
+      ],
+      "imagens": [
+        "https://picsum.photos/400/400?random=9"
+      ],
+      "status": "INATIVO",
+      "createdAt": "2024-01-07T13:00:00Z",
+      "updatedAt": "2025-12-15T20:02:50.415Z"
+    },
+    {
+      "id": "8",
+      "nome": "Camiseta Básica Preta Fofinha",
+      "descricao": "Camiseta básica preta de algodão 100%, essencial no guarda-roupa.",
+      "categoriaId": 1,
+      "preco": 49.9,
+      "precoPromocional": null,
+      "sku": "CAM-PRETA-008",
+      "codigoBarras": "7891234567897",
+      "tamanhos": [
+        "P",
+        "M",
+        "G",
+        "GG"
+      ],
+      "cores": [
+        "Preto"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": "1",
+          "quantidade": 30
+        },
+        {
+          "lojaId": "2",
+          "quantidade": 20
+        },
+        {
+          "lojaId": "3",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "4",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "7c9d",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "d1c8",
+          "quantidade": 0
+        }
+      ],
+      "imagens": [
+        "https://picsum.photos/400/400?random=10"
+      ],
+      "status": "ATIVO",
+      "createdAt": "2024-01-11T10:00:00Z",
+      "updatedAt": "2025-12-15T19:06:04.950Z"
+    },
+    {
+      "id": 0,
+      "nome": "Shorts esportivo Preto",
+      "descricao": "shorts preto",
+      "categoriaId": "5",
+      "preco": 72,
+      "precoPromocional": 54,
+      "sku": "SHOR-CAM-PRETO-001",
+      "codigoBarras": "3213213213",
+      "tamanhos": [
+        "GG",
+        "G",
+        "M",
+        "P",
+        "XG"
+      ],
+      "cores": [
+        "Preto"
+      ],
+      "estoquePorLoja": [
+        {
+          "lojaId": "1",
+          "quantidade": 10
+        },
+        {
+          "lojaId": "2",
+          "quantidade": 10
+        },
+        {
+          "lojaId": "3",
+          "quantidade": 10
+        },
+        {
+          "lojaId": "4",
+          "quantidade": 0
+        },
+        {
+          "lojaId": "7c9d",
+          "quantidade": 10
+        },
+        {
+          "lojaId": "d1c8",
+          "quantidade": 0
+        }
+      ],
+      "imagens": [
+        "https://www.shopcoveusa.com/cdn/shop/files/BLACK_FRONT_1200x1200.png?v=1740716160"
+      ],
+      "status": "ATIVO",
+      "createdAt": "2025-12-16T13:48:32.186Z",
+      "updatedAt": "2025-12-16T13:48:32.186Z"
+    }
+  ],
+  "categorias": [
+    {
+      "nome": "Camisetas Top Linha 30.1",
+      "descricao": "Camisetas básicas e estampadas para o dia a dia",
+      "slug": "camisetas",
+      "categoriaPaiId": null,
+      "status": "ATIVA",
+      "id": "1"
+    },
+    {
+      "id": "2",
+      "nome": "Calças",
+      "descricao": "Calças jeans, sociais e casuais",
+      "slug": "calcas",
+      "categoriaPaiId": null,
+      "status": "ATIVA"
+    },
+    {
+      "nome": "Vestidos",
+      "descricao": "Vestidos casuais e sociais para todas as ocasiões",
+      "slug": "vestidos",
+      "categoriaPaiId": null,
+      "status": "ATIVA",
+      "id": "3"
+    },
+    {
+      "id": "4",
+      "nome": "Jaquetas",
+      "descricao": "Jaquetas e casacos para todas as estações",
+      "slug": "jaquetas",
+      "categoriaPaiId": null,
+      "status": "ATIVA"
+    },
+    {
+      "id": "5",
+      "nome": "Shorts",
+      "descricao": "Shorts esportivos e casuais",
+      "slug": "shorts",
+      "categoriaPaiId": null,
+      "status": "ATIVA"
+    },
+    {
+      "id": "6",
+      "nome": "Acessórios",
+      "descricao": "Acessórios diversos para complementar o look",
+      "slug": "acessorios",
+      "categoriaPaiId": null,
+      "status": "ATIVA"
+    },
+    {
+      "id": "7",
+      "nome": "Camisetas Básicas",
+      "descricao": "Linha básica de camisetas",
+      "slug": "camisetas-basicas",
+      "categoriaPaiId": 1,
+      "status": "ATIVA"
+    },
+    {
+      "id": "8",
+      "nome": "Camisetas Estampadas",
+      "descricao": "Camisetas com estampas exclusivas",
+      "slug": "camisetas-estampadas",
+      "categoriaPaiId": 1,
+      "status": "ATIVA"
+    },
+    {
+      "id": "8ca2",
+      "nome": "Calças Baggy",
+      "descricao": "Calça streetwear",
+      "slug": "calcas-baggy",
+      "categoriaPaiId": "2",
+      "status": "ATIVA"
+    },
+    {
+      "id": "7cdd",
+      "nome": "Bonés",
+      "descricao": "Bonés de alta quality",
+      "slug": "bones",
+      "categoriaPaiId": "null",
+      "status": "ATIVA"
+    }
+  ],
+  "lojas": [
+    {
+      "id": "1",
+      "nome": "Loja Centro",
+      "tipo": "FISICA",
+      "endereco": {
+        "logradouro": "Rua das Flores",
+        "numero": "123",
+        "complemento": "Sala 101",
+        "bairro": "Centro",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "cep": "01234-567"
+      },
+      "horarioFuncionamento": "Segunda a Sexta: 9h às 18h | Sábado: 9h às 13h",
+      "status": "ATIVA",
+      "createdAt": "2024-01-01T10:00:00Z",
+      "updatedAt": "2024-01-15T14:30:00Z"
+    },
+    {
+      "id": "2",
+      "nome": "Loja Shopping",
+      "tipo": "FISICA",
+      "endereco": {
+        "logradouro": "Avenida Paulista",
+        "numero": "1000",
+        "complemento": "Loja 205",
+        "bairro": "Bela Vista",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "cep": "01310-100"
+      },
+      "horarioFuncionamento": "Segunda a Domingo: 10h às 22h",
+      "status": "ATIVA",
+      "createdAt": "2024-01-02T10:00:00Z",
+      "updatedAt": "2024-01-15T13:15:00Z"
+    },
+    {
+      "id": "3",
+      "nome": "Loja Online",
+      "tipo": "ONLINE",
+      "endereco": null,
+      "horarioFuncionamento": "24 horas por dia, 7 dias por semana",
+      "status": "ATIVA",
+      "createdAt": "2024-01-03T10:00:00Z",
+      "updatedAt": "2024-01-03T10:00:00Z"
+    },
+    {
+      "id": "4",
+      "nome": "Loja Zona Sul",
+      "tipo": "FISICA",
+      "endereco": {
+        "logradouro": "Rua dos Três Irmãos",
+        "numero": "456",
+        "complemento": "",
+        "bairro": "Vila Madalena",
+        "cidade": "São Paulo",
+        "estado": "SP",
+        "cep": "05433-000"
+      },
+      "horarioFuncionamento": "Segunda a Sexta: 10h às 19h | Sábado: 10h às 15h",
+      "status": "INATIVA",
+      "createdAt": "2024-01-05T10:00:00Z",
+      "updatedAt": "2024-01-10T10:00:00Z"
+    },
+    {
+      "id": "7c9d",
+      "nome": "Centro de eletrônicos",
+      "tipo": "ONLINE",
+      "endereco": null,
+      "horarioFuncionamento": "Segunda a Sexta das 9 as 18",
+      "status": "ATIVA",
+      "createdAt": "2025-12-15T17:47:27.823Z",
+      "updatedAt": "2025-12-15T17:47:27.823Z"
+    },
+    {
+      "id": "d1c8",
+      "nome": "Sistem Out",
+      "tipo": "ONLINE",
+      "endereco": null,
+      "horarioFuncionamento": "24 hrs",
+      "status": "ATIVA",
+      "createdAt": "2025-12-15T19:04:54.968Z",
+      "updatedAt": "2025-12-15T19:04:54.968Z"
+    }
+  ],
+  "alertas": [
+    {
+      "id": "1",
+      "tipo": "warning",
+      "titulo": "Categorias inativas com produtos",
+      "descricao": "A categoria 'Vestidos' está inativa mas possui 2 produtos associados",
+      "dataHora": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": "2",
+      "tipo": "error",
+      "titulo": "Produtos sem imagens",
+      "descricao": "1 produto não possui imagens cadastradas: 'Blusa de Manga Longa'",
+      "dataHora": "2024-01-15T09:15:00Z"
+    },
+    {
+      "id": "3",
+      "tipo": "warning",
+      "titulo": "Produto com estoque zero",
+      "descricao": "Produto 'Calça Jeans Skinny' está com estoque zero na Loja Centro",
+      "dataHora": "2024-01-15T08:45:00Z"
+    },
+    {
+      "id": "4",
+      "tipo": "warning",
+      "titulo": "Produtos inativos com estoque",
+      "descricao": "2 produtos estão inativos mas possuem estoque: 'Vestido Floral' e 'Saia Midi'",
+      "dataHora": "2024-01-15T07:20:00Z"
+    },
+    {
+      "id": "5",
+      "tipo": "info",
+      "titulo": "Promoções ativas",
+      "descricao": "3 produtos estão com preço promocional ativo",
+      "dataHora": "2024-01-15T06:00:00Z"
+    }
+  ],
+  "logs": [
+    {
+      "id": "1",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto 'Camiseta Básica Branca' foi editado",
+      "dataHora": "2024-01-15T14:30:00Z",
+      "usuarioId": 1,
+      "usuarioNome": "João Silva"
+    },
+    {
+      "id": "2",
+      "tipo": "update",
+      "entidade": "Loja",
+      "descricao": "Loja 'Shopping Center' foi atualizada",
+      "dataHora": "2024-01-15T13:15:00Z",
+      "usuarioId": 1,
+      "usuarioNome": "João Silva"
+    },
+    {
+      "id": "3",
+      "tipo": "inactive",
+      "entidade": "Categoria",
+      "descricao": "Categoria 'Vestidos' foi inativada",
+      "dataHora": "2024-01-15T12:00:00Z",
+      "usuarioId": 1,
+      "usuarioNome": "João Silva"
+    },
+    {
+      "id": "4",
+      "tipo": "move",
+      "entidade": "Categoria",
+      "descricao": "Categoria 'Calças' foi movida para 'Roupas Femininas'",
+      "dataHora": "2024-01-15T11:30:00Z",
+      "usuarioId": 2,
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "5",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto 'Calça Jeans Skinny' foi editado",
+      "dataHora": "2024-01-15T10:20:00Z",
+      "usuarioId": 2,
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "6",
+      "tipo": "update",
+      "entidade": "Loja",
+      "descricao": "Loja 'Centro' foi atualizada",
+      "dataHora": "2024-01-15T09:45:00Z",
+      "usuarioId": 1,
+      "usuarioNome": "João Silva"
+    },
+    {
+      "id": "7",
+      "tipo": "inactive",
+      "entidade": "Categoria",
+      "descricao": "Categoria 'Acessórios' foi inativada",
+      "dataHora": "2024-01-15T08:15:00Z",
+      "usuarioId": 3,
+      "usuarioNome": "Carlos Santos"
+    },
+    {
+      "id": "8",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Jaqueta de Couro Real\" foi editado",
+      "dataHora": "2025-12-15T18:33:08.044Z",
+      "usuarioId": "1",
+      "usuarioNome": "Marco Fain"
+    },
+    {
+      "id": "9",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Camiseta Básica Fofinha\" foi editado",
+      "dataHora": "2025-12-15T18:39:59.944Z",
+      "usuarioId": "2",
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "10",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Camiseta Básica Preta Fofinha\" foi editado",
+      "dataHora": "2025-12-15T18:47:08.909Z",
+      "usuarioId": "1",
+      "usuarioNome": "Marco Fain"
+    },
+    {
+      "id": "11",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Calça Jeans Skinny Feia\" foi editado",
+      "dataHora": "2025-12-15T18:52:27.690Z",
+      "usuarioId": "2",
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "12",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Camiseta Básica Preta Fofinha Boa\" foi editado",
+      "dataHora": "2025-12-15T18:56:09.271Z",
+      "usuarioId": "1",
+      "usuarioNome": "Marco Fain"
+    },
+    {
+      "id": "13",
+      "tipo": "update",
+      "entidade": "Categoria",
+      "descricao": "Categoria \"Camisetas Top Linha 30.1\" foi atualizada",
+      "dataHora": "2025-12-15T18:57:04.266Z",
+      "usuarioId": "3",
+      "usuarioNome": "Carlos Santos"
+    },
+    {
+      "id": "14",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Vestido Floral Verde\" foi editado",
+      "dataHora": "2025-12-15T18:58:14.489Z",
+      "usuarioId": "2",
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "15",
+      "tipo": "create",
+      "entidade": "Categoria",
+      "descricao": "Categoria \"Calças Baggy\" foi criada",
+      "dataHora": "2025-12-15T19:03:45.028Z",
+      "usuarioId": "2",
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "16",
+      "tipo": "create",
+      "entidade": "Loja",
+      "descricao": "Loja \"Sistem Out\" foi criada",
+      "dataHora": "2025-12-15T19:04:55.003Z",
+      "usuarioId": "1",
+      "usuarioNome": "Marco Fain"
+    },
+    {
+      "id": "17",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Camiseta Básica Preta Fofinha\" foi editado",
+      "dataHora": "2025-12-15T19:06:04.965Z",
+      "usuarioId": "3",
+      "usuarioNome": "Carlos Santos"
+    },
+    {
+      "id": "18",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Jaqueta de Couro\" foi editado",
+      "dataHora": "2025-12-15T19:32:51.718Z",
+      "usuarioId": "2",
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "19",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Jaqueta de Couro Legitimo\" foi editado",
+      "dataHora": "2025-12-15T19:34:00.004Z",
+      "usuarioId": "3",
+      "usuarioNome": "Carlos Santos"
+    },
+    {
+      "id": "20",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Calça Jeans Skinny Super Feia\" foi editado",
+      "dataHora": "2025-12-15T20:01:00.297Z",
+      "usuarioId": "2",
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "21",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Blusa de Manga Longa Topperson\" foi editado",
+      "dataHora": "2025-12-15T20:01:27.582Z",
+      "usuarioId": "3",
+      "usuarioNome": "Carlos Santos"
+    },
+    {
+      "id": "22",
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Saia Midi Fade\" foi editado",
+      "dataHora": "2025-12-15T20:02:50.423Z",
+      "usuarioId": "2",
+      "usuarioNome": "Ana Silva"
+    },
+    {
+      "id": "23",
+      "tipo": "create",
+      "entidade": "Categoria",
+      "descricao": "Categoria \"Bonés\" foi criada",
+      "dataHora": "2025-12-15T20:11:42.500Z",
+      "usuarioId": "1",
+      "usuarioNome": "Marco Fain"
+    },
+    {
+      "id": 24,
+      "tipo": "update",
+      "entidade": "Categoria",
+      "descricao": "Categoria \"Vestidos\" foi atualizada",
+      "dataHora": "2025-12-16T13:41:41.892Z",
+      "usuarioId": 1,
+      "usuarioNome": "Marco Fain"
+    },
+    {
+      "id": 25,
+      "tipo": "edit",
+      "entidade": "Produto",
+      "descricao": "Produto \"Vestido Floral Verde\" foi editado",
+      "dataHora": "2025-12-16T13:42:14.575Z",
+      "usuarioId": 1,
+      "usuarioNome": "Marco Fain"
+    },
+    {
+      "id": 26,
+      "tipo": "create",
+      "entidade": "Produto",
+      "descricao": "Produto \"Shorts esportivo Preto\" foi criado",
+      "dataHora": "2025-12-16T13:48:32.202Z",
+      "usuarioId": 1,
+      "usuarioNome": "Marco Fain"
+    }
+  ],
+  "usuarioLogado": {
+    "id": 1,
+    "nome": "João Silva",
+    "email": "joao.silva@example.com",
+    "cargo": "Administrador"
+  },
+  "colaboradores": [
+    {
+      "id": "1",
+      "nome": "Marco Fain",
+      "email": "marcofain@cms.com",
+      "senha": "admin123",
+      "status": "ativo",
+      "cargo": "Administrador"
+    },
+    {
+      "id": "2",
+      "nome": "Ana Silva",
+      "email": "ana.silva@cms.com",
+      "senha": "gerente123",
+      "status": "ativo",
+      "cargo": "Gerente"
+    },
+    {
+      "id": "3",
+      "nome": "Carlos Santos",
+      "email": "carlos.santos@cms.com",
+      "senha": "conteudo123",
+      "status": "ativo",
+      "cargo": "Editor de Conteúdo"
+    },
+    {
+      "id": "4",
+      "nome": "Maria Inativa",
+      "email": "maria@cms.com",
+      "senha": "teste123",
+      "status": "inativo",
+      "cargo": "Colaborador"
+    }
+  ]
+}

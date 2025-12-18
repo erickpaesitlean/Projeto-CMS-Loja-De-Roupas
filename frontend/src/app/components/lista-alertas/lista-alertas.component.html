@@ -1,0 +1,39 @@
+<div class="alertas-container">
+  <div class="section-header">
+    <h2 class="section-title">Alertas Recentes</h2>
+  </div>
+  @if (alertas.length === 0) {
+    <div class="empty-state">
+      <app-icon name="info" size="48" color="#cbd5e1" />
+      <p>Nenhum alerta no momento</p>
+    </div>
+  } @else {
+    <div class="alertas-list">
+      @for (alerta of alertas; track alerta.id) {
+        <div 
+          class="alerta-card" 
+          [class]="'alerta-' + alerta.tipo"
+          [class.clickable]="true"
+          (click)="onAlertaClick(alerta)"
+          title="Clique para resolver este problema"
+        >
+          <div class="alerta-icon-wrapper">
+            <app-icon [name]="getIconePorTipo(alerta.tipo)" [size]="20" />
+          </div>
+          <div class="alerta-content">
+            <div class="alerta-header">
+              <h3 class="alerta-titulo">{{ alerta.titulo }}</h3>
+              <span class="alerta-data">{{ formatarData(alerta.dataHora) }}</span>
+            </div>
+            <p class="alerta-descricao">{{ alerta.descricao }}</p>
+            <div class="alerta-action-hint">
+              <app-icon name="edit" [size]="14" color="#64748b" />
+              <span>Clique para resolver</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+

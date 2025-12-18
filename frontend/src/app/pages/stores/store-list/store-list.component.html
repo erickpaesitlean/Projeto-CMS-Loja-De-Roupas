@@ -1,0 +1,108 @@
+<div class="panel panel-stores">
+  <div class="panel-header">
+    <div class="panel-header-left">
+      <h2>Lojas</h2>
+      <span class="panel-hint">
+        {{ stores().length }} loja(s) cadastrada(s)
+      </span>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando lojas...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <app-icon name="alert-triangle" [size]="48" />
+      <p>{{ error() }}</p>
+      <button class="btn-primary" (click)="loadStores()" type="button">Tentar novamente</button>
+    </div>
+  } @else if (stores().length === 0) {
+    <div class="empty-state">
+      <app-icon name="store" [size]="64" />
+      <h3>Nenhuma loja cadastrada</h3>
+      <p>Comece criando sua primeira loja para gerenciar seu e-commerce</p>
+    </div>
+  } @else {
+    <div class="table-wrap" role="region" aria-label="Tabela de lojas">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Localização</th>
+            <th>Status</th>
+            <th class="actions-column">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (store of stores(); track store.id) {
+            <tr class="row-clickable" (click)="editStore(store.id)">
+              <td class="name-cell">
+                <div class="name-content">
+                  <span class="store-name">{{ store.nome }}</span>
+                  @if (store.horarioFuncionamento) {
+                    <span class="hours">
+                      <app-icon name="clock" [size]="12" />
+                      {{ store.horarioFuncionamento }}
+                    </span>
+                  }
+                </div>
+              </td>
+              <td>
+                <span class="type-badge" [class]="store.tipo === 'FISICA' ? 'type-physical' : 'type-online'">
+                  <app-icon 
+                    [name]="store.tipo === 'FISICA' ? 'store' : 'package'" 
+                    [size]="14"
+                  />
+                  {{ getTypeLabel(store.tipo) }}
+                </span>
+              </td>
+              <td>
+                <span class="location">
+                  @if (store.tipo === 'FISICA' && store.endereco?.cidade) {
+                    <app-icon name="store" [size]="14" />
+                    {{ store.endereco?.cidade }}, {{ store.endereco?.estado }}
+                  } @else {
+                    <span class="online-label">
+                      <app-icon name="package" [size]="14" />
+                      Loja Virtual
+                    </span>
+                  }
+                </span>
+              </td>
+              <td>
+                <span class="badge" [class]="getStatusClass(store.status)">
+                  <app-icon [name]="store.status === 'ATIVA' ? 'check-circle' : 'x-circle'" [size]="14" />
+                  <span>{{ getStatusLabel(store.status) }}</span>
+                </span>
+              </td>
+              <td class="actions-cell">
+                <div class="actions-group">
+                  <button
+                    class="icon-action"
+                    (click)="$event.stopPropagation(); editStore(store.id)"
+                    title="Editar loja"
+                    type="button"
+                  >
+                    <app-icon name="edit" [size]="16" />
+                  </button>
+                  <button
+                    class="icon-action danger"
+                    (click)="$event.stopPropagation(); deleteStore(store.id)"
+                    title="Remover loja"
+                    type="button"
+                  >
+                    <app-icon name="trash" [size]="16" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

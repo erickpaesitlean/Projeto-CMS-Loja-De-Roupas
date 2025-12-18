@@ -1,0 +1,50 @@
+<div class="products-page">
+  <div class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="router.navigate(['/dashboard'])" type="button" title="Voltar ao Dashboard">
+        <app-icon name="arrow-left" [size]="20" color="#64748b" />
+      </button>
+      <div>
+        <h1 class="page-title">Gestão de Produtos</h1>
+        <p class="page-subtitle">Gerencie os produtos do seu catálogo</p>
+      </div>
+    </div>
+    @if (currentView() === 'list') {
+      <button class="btn-primary" (click)="onCreateNew()" type="button">
+        <app-icon name="plus" [size]="20" color="white" />
+        Novo Produto
+      </button>
+    }
+  </div>
+
+  <div class="page-content">
+    @if (currentView() === 'list') {
+      <app-product-list />
+    } @else if (currentView() === 'form') {
+      <router-outlet />
+    }
+  </div>
+
+  @if (selectedProduct()) {
+    <app-product-deactivate-modal
+      [product]="selectedProduct()!"
+      [isOpen]="deactivateModalOpen()"
+      (close)="closeModals(); router.navigate(['/produtos'])"
+      (confirm)="onDeactivateConfirm()"
+    />
+
+    <app-product-delete-modal
+      [product]="selectedProduct()!"
+      [isOpen]="deleteModalOpen()"
+      (close)="closeModals(); router.navigate(['/produtos'])"
+      (confirm)="onDeleteConfirm()"
+    />
+  }
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+@if (isOpen) {
+  <div class="modal-overlay" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Inativar Categoria</h3>
+        <button class="close-btn" (click)="onClose()" type="button" aria-label="Fechar">
+          <app-icon name="x" [size]="20" color="#64748b" />
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-description">
+          Você está prestes a inativar a categoria <strong>{{ category.nome }}</strong>.
+        </p>
+
+        @if (loading()) {
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Verificando produtos associados...</p>
+          </div>
+        } @else if (hasProducts) {
+          <div class="warning-box">
+            <app-icon name="alert-triangle" [size]="24" color="#f59e0b" />
+            <div>
+              <strong>Esta categoria possui {{ totalProducts() }} produto(s) associado(s).</strong>
+              @if (hasChildCategories() && productsFromChildren().length > 0) {
+                <p>
+                  <strong>{{ products().length }}</strong> produto(s) nesta categoria e 
+                  <strong>{{ productsFromChildren().length }}</strong> produto(s) em categorias filhas.
+                </p>
+              }
+              <p>Para inativar esta categoria, você <strong>deve</strong> realocar todos os produtos para outra categoria.</p>
+            </div>
+          </div>
+
+          <form [formGroup]="relocateForm" class="relocate-form">
+            <label class="form-label">
+              Categoria de Destino <span class="required">*</span>
+            </label>
+            <select
+              formControlName="targetCategoryId"
+              class="form-select"
+              [class.invalid]="relocateForm.get('targetCategoryId')?.invalid && relocateForm.get('targetCategoryId')?.touched"
+            >
+              <option [value]="null">Selecione uma categoria</option>
+              @for (cat of availableCategories(); track cat.id) {
+                <option [value]="cat.id">{{ cat.nome }}</option>
+              }
+            </select>
+            @if (relocateForm.get('targetCategoryId')?.invalid && relocateForm.get('targetCategoryId')?.touched) {
+              <span class="error-message">Selecione uma categoria de destino</span>
+            }
+            @if (availableCategories().length === 0) {
+              <span class="error-message">Não há categorias ativas disponíveis para realocação</span>
+            }
+          </form>
+        } @else {
+          <div class="info-box">
+            <app-icon name="info" [size]="24" color="#3b82f6" />
+            <p>Esta categoria não possui produtos associados. A inativação será realizada imediatamente.</p>
+          </div>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onConfirm()"
+          [disabled]="hasProducts && relocateForm.invalid"
+        >
+          @if (hasProducts) {
+            Confirmar Inativação e Realocação
+          } @else {
+            Confirmar Inativação
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}
+

@@ -1,0 +1,172 @@
+<div class="product-detail-container">
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando detalhes do produto...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <app-icon name="alert-triangle" [size]="48" color="#ef4444" />
+      <p>{{ error() }}</p>
+      <button class="retry-btn" (click)="goBack()">Voltar</button>
+    </div>
+  } @else if (product()) {
+    <div class="detail-header">
+      <button class="btn-back" (click)="goBack()" type="button" title="Voltar">
+        <app-icon name="arrow-left" [size]="20" color="#64748b" />
+        Voltar
+      </button>
+      <div class="header-actions">
+        <button class="btn-edit" (click)="editProduct()" type="button">
+          <app-icon name="edit" [size]="18" color="#3b82f6" />
+          Editar Produto
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-content">
+      <!-- Informações Principais -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2 class="section-title">Informações do Produto</h2>
+          <span class="status-badge" [class.active]="product()!.status === 'ATIVO'" [class.inactive]="product()!.status === 'INATIVO'">
+            {{ product()!.status === 'ATIVO' ? 'Ativo' : 'Inativo' }}
+          </span>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Nome</label>
+            <p class="info-value">{{ product()!.nome }}</p>
+          </div>
+
+          <div class="info-item">
+            <label>SKU</label>
+            <p class="info-value"><code>{{ product()!.sku }}</code></p>
+          </div>
+
+          <div class="info-item">
+            <label>Código de Barras</label>
+            <p class="info-value"><code>{{ product()!.codigoBarras }}</code></p>
+          </div>
+
+          <div class="info-item">
+            <label>Categoria</label>
+            <p class="info-value">{{ category()?.nome || 'N/A' }}</p>
+          </div>
+
+          <div class="info-item full-width">
+            <label>Descrição</label>
+            <p class="info-value">{{ product()!.descricao }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preços -->
+      <div class="detail-section">
+        <h3 class="section-title">Preços</h3>
+        <div class="price-container">
+          <div class="price-item">
+            <label>Preço</label>
+            <p class="price-value">{{ formatPrice(product()!.preco) }}</p>
+          </div>
+          @if (product()!.precoPromocional) {
+            <div class="price-item">
+              <label>Preço Promocional</label>
+              <div class="promo-price-wrapper">
+                <p class="price-value promo">{{ formatPrice(product()!.precoPromocional!) }}</p>
+                @if (getDiscountPercent()) {
+                  <span class="discount-badge">-{{ getDiscountPercent() }}%</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Estoque por Loja -->
+      <div class="detail-section">
+        <h3 class="section-title">Estoque por Loja</h3>
+        @if (product()!.estoquePorLoja.length > 0) {
+          <div class="stock-list">
+            @for (estoque of product()!.estoquePorLoja; track estoque.lojaId) {
+              <div class="stock-item">
+                <div class="stock-info">
+                  <app-icon name="store" [size]="18" color="#64748b" />
+                  <span class="store-name">{{ getStoreName(estoque.lojaId) }}</span>
+                </div>
+                <span class="stock-amount" [class.low-stock]="estoque.quantidade === 0">
+                  {{ estoque.quantidade }} unidades
+                </span>
+              </div>
+            }
+          </div>
+          <div class="total-stock">
+            <strong>Estoque Total: {{ getTotalStock() }} unidades</strong>
+          </div>
+        } @else {
+          <p class="no-stock">Nenhum estoque cadastrado</p>
+        }
+      </div>
+
+      <!-- Tamanhos e Cores -->
+      <div class="detail-section">
+        <h3 class="section-title">Variações</h3>
+        <div class="variations-grid">
+          @if (product()!.tamanhos.length > 0) {
+            <div class="variation-item">
+              <label>Tamanhos Disponíveis</label>
+              <div class="tags-list">
+                @for (tamanho of product()!.tamanhos; track tamanho) {
+                  <span class="tag">{{ tamanho }}</span>
+                }
+              </div>
+            </div>
+          }
+          @if (product()!.cores.length > 0) {
+            <div class="variation-item">
+              <label>Cores Disponíveis</label>
+              <div class="tags-list">
+                @for (cor of product()!.cores; track cor) {
+                  <span class="tag">{{ cor }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Imagens -->
+      <div class="detail-section">
+        <h3 class="section-title">Imagens do Produto</h3>
+        @if (product()!.imagens.length > 0) {
+          <div class="images-grid">
+            @for (imagem of product()!.imagens; track imagem; let i = $index) {
+              <div class="image-item">
+                <img [src]="getImagemUrl(imagem)" [alt]="product()!.nome + ' - Imagem ' + (i + 1)" />
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="no-images">Nenhuma imagem cadastrada</p>
+        }
+      </div>
+
+      <!-- Informações do Sistema -->
+      <div class="detail-section">
+        <h3 class="section-title">Informações do Sistema</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <label>Data de Criação</label>
+            <p class="info-value">{{ formatDate(product()!.createdAt) }}</p>
+          </div>
+          <div class="info-item">
+            <label>Última Atualização</label>
+            <p class="info-value">{{ formatDate(product()!.updatedAt) }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+

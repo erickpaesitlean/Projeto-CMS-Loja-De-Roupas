@@ -1,0 +1,141 @@
+<main class="login-shell" aria-label="Tela de login">
+  <!-- Left: Brand/Testimonial (hidden on mobile) -->
+  <aside class="login-left" aria-label="Depoimento">
+    <div class="left-content">
+      <div class="left-symbol" aria-hidden="true">
+        <div class="left-symbol-inner">
+          <span class="left-symbol-dot"></span>
+        </div>
+      </div>
+
+      <p class="testimonial">
+        “Gerencie produtos, categorias e lojas com rapidez e consistência. Tudo em um só lugar, com validações e alertas para manter o catálogo sempre saudável.”
+      </p>
+      <p class="author">
+        Equipe Lojinha Top <span class="author-sep">•</span> CMS
+      </p>
+    </div>
+  </aside>
+
+  <!-- Right: Form -->
+  <section class="login-right" aria-label="Formulário">
+    <div class="right-content">
+      <header class="right-header">
+        <div class="logo" aria-label="Lojinha Top">
+          <span class="logo-mark" aria-hidden="true"></span>
+          <span class="logo-text">Lojinha Top</span>
+        </div>
+        <h1 class="title">Entrar</h1>
+        <p class="subtitle">Use seu e-mail e senha para acessar o CMS.</p>
+      </header>
+
+      @if (error()) {
+        <div class="alert alert-error" role="alert" aria-live="polite">
+          <span class="alert-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+              <path d="M12 9v4" />
+              <path d="M12 17h.01" />
+            </svg>
+          </span>
+          <span class="alert-text">{{ error() }}</span>
+        </div>
+      }
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
+        <div class="field">
+          <label for="email" class="label">E-mail <span class="req">*</span></label>
+          <div class="control">
+            <span class="control-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16v16H4z" />
+                <path d="m22 6-10 7L2 6" />
+              </svg>
+            </span>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="input"
+              [class.invalid]="isFieldInvalid('email')"
+              [attr.aria-invalid]="isFieldInvalid('email')"
+              [attr.aria-describedby]="isFieldInvalid('email') ? 'email-error' : null"
+              placeholder="seu@email.com"
+              autocomplete="email"
+              inputmode="email"
+            />
+          </div>
+          @if (isFieldInvalid('email')) {
+            <div id="email-error" class="field-error" role="status" aria-live="polite">
+              {{ getFieldError('email') }}
+            </div>
+          }
+        </div>
+
+        <div class="field">
+          <label for="senha" class="label">Senha <span class="req">*</span></label>
+          <div class="control">
+            <span class="control-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </span>
+            <input
+              id="senha"
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="senha"
+              class="input"
+              [class.invalid]="isFieldInvalid('senha')"
+              [attr.aria-invalid]="isFieldInvalid('senha')"
+              [attr.aria-describedby]="isFieldInvalid('senha') ? 'senha-error' : null"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              class="control-action"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword() ? 'Ocultar senha' : 'Mostrar senha'"
+              [attr.aria-pressed]="showPassword()"
+            >
+              @if (showPassword()) {
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C7 20 2.73 16.11 1 12c.74-1.76 2.07-3.6 3.9-5.1" />
+                  <path d="M10.58 10.58a2 2 0 0 0 2.84 2.84" />
+                  <path d="M1 1l22 22" />
+                  <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c5 0 9.27 3.89 11 8a11.5 11.5 0 0 1-2.21 3.36" />
+                </svg>
+              } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              }
+            </button>
+          </div>
+          @if (isFieldInvalid('senha')) {
+            <div id="senha-error" class="field-error" role="status" aria-live="polite">
+              {{ getFieldError('senha') }}
+            </div>
+          }
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || loading()">
+          @if (loading()) {
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Entrando...</span>
+          } @else {
+            <span>Entrar</span>
+          }
+        </button>
+      </form>
+    </div>
+  </section>
+</main>
+

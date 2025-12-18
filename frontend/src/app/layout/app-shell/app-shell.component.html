@@ -1,0 +1,77 @@
+<div class="crm-layout" [class.sidebar-open]="sidebarOpen()">
+  @if (sidebarOpen()) {
+  <div class="sidebar-overlay" (click)="closeSidebar()" aria-hidden="true"></div>
+  }
+
+  <aside class="crm-sidebar" aria-label="Navegação principal">
+    <div class="sidebar-top">
+      <a class="brand" routerLink="/dashboard">
+        <span class="brand-mark" aria-hidden="true">
+          <span class="brand-dot"></span>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">Lojinha Top</span>
+          <span class="brand-sub">{{ pageLabel() }}</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Seções do CMS">
+        <a class="nav-item" routerLink="/dashboard" routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }">
+          <app-icon name="activity" [size]="18" />
+          <span>Visão geral</span>
+        </a>
+
+        <a class="nav-item" routerLink="/categorias" routerLinkActive="active">
+          <app-icon name="folder" [size]="18" />
+          <span>Categorias</span>
+        </a>
+
+
+        <a class="nav-item" routerLink="/produtos" routerLinkActive="active">
+          <app-icon name="package" [size]="18" />
+          <span>Produtos</span>
+        </a>
+
+
+
+        <a class="nav-item" routerLink="/lojas" routerLinkActive="active">
+          <app-icon name="store" [size]="18" />
+          <span>Lojas</span>
+        </a>
+
+        <a class="nav-item" routerLink="/vitrine" routerLinkActive="active">
+          <app-icon name="image" [size]="18" />
+          <span>Vitrine</span>
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-bottom">
+      <button class="nav-item" type="button" (click)="logout()">
+        <app-icon name="log-out" [size]="18" />
+        <span>Sair</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="crm-main">
+    <header class="crm-topbar">
+      <button class="icon-btn menu-btn" type="button" (click)="toggleSidebar()" aria-label="Abrir/fechar menu">
+        <span class="burger" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+
+      <div class="topbar-left">
+        <div class="topbar-kicker">
+          <span class="kicker">{{ pageLabel() }}</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

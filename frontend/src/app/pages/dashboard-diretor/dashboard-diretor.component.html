@@ -1,0 +1,76 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <div>
+      <h1 class="dashboard-title">Dashboard - Diretor</h1>
+      @if (usuarioLogado()) {
+        <p class="dashboard-subtitle">
+          Bem-vindo, <strong>{{ usuarioLogado()!.nome }}</strong>
+        </p>
+      }
+    </div>
+    <button class="logout-button" (click)="logout()" type="button">
+      <app-icon name="log-out" [size]="18" color="#64748b" />
+      <span>Sair</span>
+    </button>
+  </header>
+
+  <div class="search-row">
+    <app-barra-busca-global />
+  </div>
+
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Carregando dados...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-container">
+      <p>{{ error() }}</p>
+      <button class="retry-btn" (click)="carregarDados()">Tentar novamente</button>
+    </div>
+  } @else {
+    <div class="dashboard-content">
+      <app-cards-resumo [kpis]="kpis()" />
+
+      <div class="dashboard-grid">
+        <div class="dashboard-column">
+          <app-lista-alertas [alertas]="alertas()" />
+        </div>
+
+        <div class="dashboard-column">
+          <app-atalhos-rapidos />
+        </div>
+      </div>
+
+      <div class="logs-section">
+        <div class="logs-container">
+          <h2 class="section-title">Últimas Ações</h2>
+          @if (logs().length === 0) {
+            <div class="empty-state">
+              <p>Nenhuma ação registrada</p>
+            </div>
+          } @else {
+            <div class="logs-list">
+              @for (log of logs(); track log.id) {
+                <div class="log-item">
+                  <div class="log-icon-wrapper">
+                    <app-icon [name]="getIconePorTipo(log.tipo)" [size]="18" color="#64748b" />
+                  </div>
+                  <div class="log-content">
+                    <div class="log-descricao">{{ log.descricao }}</div>
+                    <div class="log-meta">
+                      <span class="log-entidade">{{ log.entidade }}</span>
+                      <span class="log-separator">•</span>
+                      <span class="log-data">{{ formatarData(log.dataHora) }}</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>
+

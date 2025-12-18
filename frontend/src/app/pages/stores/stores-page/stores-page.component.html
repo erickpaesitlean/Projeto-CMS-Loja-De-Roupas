@@ -1,0 +1,43 @@
+<div class="stores-page">
+  <div class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="goToDashboard()" type="button" title="Voltar ao Dashboard">
+        <app-icon name="arrow-left" [size]="20" />
+      </button>
+      <div>
+        <h1 class="page-title">Gestão de Lojas</h1>
+        <p class="page-subtitle">Gerencie as lojas físicas e online do seu e-commerce</p>
+      </div>
+    </div>
+    @if (currentView() === 'list') {
+      <button class="btn-primary" (click)="onCreateNew()" type="button">
+        <app-icon name="plus" [size]="20" />
+        Nova Loja
+      </button>
+    }
+  </div>
+
+  <div class="page-content">
+    @if (currentView() === 'list') {
+      <app-store-list (deleteStoreRequest)="onDeleteStoreRequest($event)" />
+    } @else if (currentView() === 'form') {
+      <router-outlet />
+    }
+  </div>
+
+  @if (selectedStore()) {
+    <app-store-deactivate-modal
+      [store]="selectedStore()!"
+      [isOpen]="deactivateModalOpen()"
+      (close)="closeModals(); router.navigate(['/lojas'])"
+      (confirm)="onDeactivateConfirm()"
+    />
+
+    <app-store-delete-modal
+      [store]="selectedStore()!"
+      [isOpen]="deleteModalOpen()"
+      (close)="closeModals(); router.navigate(['/lojas'])"
+      (confirm)="onDeleteConfirm()"
+    />
+  }
+</div>

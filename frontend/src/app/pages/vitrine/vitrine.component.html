@@ -1,0 +1,143 @@
+<div class="vitrine-page">
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="goBack()" type="button" title="Voltar ao Dashboard">
+        <app-icon name="arrow-left" [size]="20" />
+      </button>
+      <div>
+        <h1 class="page-title">Vitrine de Produtos</h1>
+        <p class="page-subtitle">Explore os produtos disponíveis em nossa loja</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toolbar: Search & Filters -->
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">
+        <app-icon name="search" [size]="20" />
+      </span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar produtos por nome ou descrição..."
+        [value]="searchTerm()"
+        (input)="onSearchChange($event)"
+      />
+      @if (searchTerm()) {
+        <button class="search-clear" (click)="searchTerm.set('')" type="button">
+          <app-icon name="x" [size]="16" />
+        </button>
+      }
+    </div>
+
+    <div class="toolbar-actions">
+      <select
+        class="filter-select"
+        [value]="selectedCategoryId() || ''"
+        (change)="onCategoryFilterChange($event)"
+        aria-label="Filtrar por categoria"
+      >
+        <option value="">Todas as categorias</option>
+        @for (category of categories(); track category.id) {
+          <option [value]="category.id">{{ category.nome }}</option>
+        }
+      </select>
+
+      @if (hasActiveFilters()) {
+        <button class="btn-clear-filters" (click)="clearFilters()" type="button">
+          <app-icon name="x" [size]="16" />
+          <span>Limpar</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Content -->
+  @if (loading()) {
+    <div class="state-container">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Carregando produtos...</p>
+      </div>
+    </div>
+  } @else if (error()) {
+    <div class="state-container">
+      <div class="error-state">
+        <div class="state-icon error">
+          <app-icon name="alert-triangle" [size]="32" />
+        </div>
+        <h3>Erro ao carregar</h3>
+        <p>{{ error() }}</p>
+        <button class="btn-primary" (click)="loadData()" type="button">
+          <app-icon name="refresh" [size]="18" />
+          Tentar novamente
+        </button>
+      </div>
+    </div>
+  } @else if (filteredProducts.length === 0) {
+    <div class="state-container">
+      <div class="empty-state">
+        <div class="state-icon">
+          <app-icon name="package" [size]="40" />
+        </div>
+        <h3>Nenhum produto encontrado</h3>
+        <p>{{ hasActiveFilters() ? 'Tente ajustar os filtros de busca' : 'Nenhum produto ativo disponível no momento' }}</p>
+        @if (hasActiveFilters()) {
+          <button class="btn-secondary" (click)="clearFilters()" type="button">
+            Limpar filtros
+          </button>
+        }
+      </div>
+    </div>
+  } @else {
+    <!-- Results Counter -->
+    <div class="results-info">
+      <span class="results-count">
+        <strong>{{ filteredProducts.length }}</strong> produto(s) encontrado(s)
+      </span>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid">
+      @for (product of filteredProducts; track product.id) {
+        <article class="product-card" (click)="viewProductDetails(product.id)">
+          <!-- Image Section -->
+          <div class="card-image">
+            @if (getFirstImage(product)) {
+              <img 
+                [src]="getFirstImage(product)!" 
+                [alt]="product.nome"
+                loading="lazy"
+              />
+            } @else {
+              <div class="no-image">
+                <app-icon name="image" [size]="40" />
+              </div>
+            }
+          </div>
+
+          <!-- Content Section -->
+          <div class="card-content">
+            <h3 class="product-title">{{ product.nome }}</h3>
+            
+            <p class="product-description">{{ product.descricao }}</p>
+
+            <!-- Price Section -->
+            <div class="price-section">
+              @if (product.precoPromocional) {
+                <div class="price-promo">
+                  <span class="price-original">{{ formatPrice(product.preco) }}</span>
+                  <span class="price-final">{{ formatPrice(product.precoPromocional) }}</span>
+                </div>
+              } @else {
+                <span class="price-regular">{{ formatPrice(product.preco) }}</span>
+              }
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

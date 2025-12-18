@@ -1,0 +1,54 @@
+@if (isOpen) {
+  <div class="modal-overlay" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ product.status === 'ATIVO' ? 'Inativar' : 'Ativar' }} Produto</h3>
+        <button class="close-btn" (click)="onClose()" type="button" aria-label="Fechar">
+          <app-icon name="x" [size]="20" color="#64748b" />
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-description">
+          Você está prestes a {{ product.status === 'ATIVO' ? 'inativar' : 'ativar' }} o produto
+          <strong>{{ product.nome }}</strong>.
+        </p>
+
+        <div class="info-box">
+          <app-icon name="info" [size]="24" color="#3b82f6" />
+          <div>
+            <p>
+              O status do produto será alterado de <strong>{{ product.status }}</strong> para
+              <strong>{{ getNewStatus() }}</strong>.
+            </p>
+            @if (product.status === 'ATIVO') {
+              <p>Produtos inativos não serão exibidos no catálogo público.</p>
+            } @else {
+              <p>
+                @if (product.imagens.length === 0) {
+                  <strong>Atenção:</strong> Este produto não possui imagens. Ele não poderá ser ativado.
+                } @else {
+                  O produto voltará a ser exibido no catálogo público.
+                }
+              </p>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="onConfirm()">
+          Confirmar {{ product.status === 'ATIVO' ? 'Inativação' : 'Ativação' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+
+
+
+
+
+

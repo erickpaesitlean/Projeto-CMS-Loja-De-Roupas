@@ -1,0 +1,166 @@
+<div class="panel panel-products">
+  <div class="panel-header">
+    <div class="panel-header-left">
+      <h2>Produtos</h2>
+      <span class="panel-hint">
+        {{ displayedProducts().length }} de {{ products().length }} produto(s)
+      </span>
+    </div>
+    <div class="panel-header-right">
+      @if (hasActiveFilters()) {
+        <button class="btn-ghost" (click)="clearFilters()" type="button">
+          <app-icon name="x" [size]="16" />
+          <span>Limpar filtros</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Toolbar (busca + filtros) -->
+  <div class="toolbar">
+    <div class="search">
+      <span class="search-icon" aria-hidden="true">
+        <app-icon name="search" [size]="18" color="#64748b" />
+      </span>
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Buscar por nome, SKU ou código de barras..."
+        [value]="searchTerm()"
+        (input)="onSearchChange($event)"
+      />
+    </div>
+
+    <div class="filters">
+      <select
+        class="select"
+        [value]="selectedCategoryId() || ''"
+        (change)="onCategoryFilterChange($event)"
+        aria-label="Filtrar por categoria"
+      >
+        <option value="">Todas as categorias</option>
+        @for (category of categories(); track category.id) {
+          <option [value]="category.id">{{ category.nome }}</option>
+        }
+      </select>
+
+      <select
+        class="select"
+        [value]="selectedStatus() || ''"
+        (change)="onStatusFilterChange($event)"
+        aria-label="Filtrar por status"
+      >
+        <option value="">Todos os status</option>
+        <option value="ATIVO">Ativo</option>
+        <option value="INATIVO">Inativo</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Conteúdo -->
+  @if (loading()) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando produtos...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <app-icon name="alert-triangle" [size]="48" color="#ef4444" />
+      <p>{{ error() }}</p>
+      <button class="btn-primary" (click)="loadData()" type="button">Tentar novamente</button>
+    </div>
+  } @else if (displayedProducts().length === 0) {
+    <div class="empty-state">
+      <app-icon name="package" [size]="64" color="#cbd5e1" />
+      <h3>Nenhum produto encontrado</h3>
+      <p>{{ hasActiveFilters() ? 'Tente ajustar os filtros' : 'Comece criando seu primeiro produto' }}</p>
+    </div>
+  } @else {
+    <div class="table-wrap" role="region" aria-label="Tabela de produtos">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>SKU</th>
+            <th>Preço</th>
+            <th>Status</th>
+            <th>Estoque Total</th>
+            <th class="actions-column">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of displayedProducts(); track product.id) {
+            <tr class="row-clickable" (click)="editProduct(product.id)">
+              <td class="name-cell">
+                <div class="name-content">
+                  <div class="primary">
+                    <span class="product-name">{{ product.nome }}</span>
+                    @if (product.precoPromocional) {
+                      <span class="pill promo">Promo</span>
+                    }
+                  </div>
+                  <div class="secondary">
+                    <span class="muted">EAN:</span>
+                    <code class="code">{{ product.codigoBarras || '—' }}</code>
+                  </div>
+                </div>
+              </td>
+              <td>{{ getCategoryName(product.categoriaId) }}</td>
+              <td>
+                <code class="code">{{ product.sku }}</code>
+              </td>
+              <td class="price-cell">
+                @if (product.precoPromocional) {
+                  <div class="price-wrapper">
+                    <span class="price-old">R$ {{ product.preco.toFixed(2).replace('.', ',') }}</span>
+                    <span class="price-new">R$ {{ product.precoPromocional.toFixed(2).replace('.', ',') }}</span>
+                  </div>
+                } @else {
+                  <span class="price-normal">R$ {{ product.preco.toFixed(2).replace('.', ',') }}</span>
+                }
+              </td>
+              <td>
+                <span class="badge" [class]="getStatusClass(product.status)">
+                  <app-icon [name]="product.status === 'ATIVO' ? 'check-circle' : 'x-circle'" [size]="16" />
+                  <span>{{ getStatusLabel(product.status) }}</span>
+                </span>
+              </td>
+              <td>
+                <span class="stock" [class.zero]="getTotalStock(product) === 0">
+                  {{ getTotalStock(product) }}
+                </span>
+              </td>
+              <td class="actions-cell">
+                <div class="actions-group">
+                  <button
+                    class="icon-action"
+                    (click)="$event.stopPropagation(); editProduct(product.id)"
+                    title="Editar produto"
+                    type="button"
+                  >
+                    <app-icon name="edit" [size]="16" />
+                  </button>
+                  <button
+                    class="icon-action danger"
+                    (click)="$event.stopPropagation(); deleteProduct(product)"
+                    title="Remover produto"
+                    type="button"
+                  >
+                    <app-icon name="trash" [size]="16" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+
+
+
+
+

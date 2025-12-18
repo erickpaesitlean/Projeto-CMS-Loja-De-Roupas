@@ -1,0 +1,44 @@
+<div class="categories-page">
+  <div class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="goToDashboard()" type="button" title="Voltar ao Dashboard">
+        <app-icon name="arrow-left" [size]="20" />
+      </button>
+      <div>
+        <h1 class="page-title">Gestão de Categorias</h1>
+        <p class="page-subtitle">Gerencie as categorias do seu catálogo</p>
+      </div>
+    </div>
+    @if (currentView() === 'list') {
+      <button class="btn-primary" (click)="onCreateNew()" type="button">
+        <app-icon name="plus" [size]="20" />
+        Nova Categoria
+      </button>
+    }
+  </div>
+
+  <div class="page-content">
+    @if (currentView() === 'list') {
+      <app-category-list (deleteCategoryRequest)="onDeleteCategoryRequest($event)" />
+    } @else if (currentView() === 'form') {
+      <router-outlet />
+    }
+  </div>
+
+  @if (selectedCategory()) {
+    <app-category-deactivate-modal
+      [category]="selectedCategory()!"
+      [isOpen]="deactivateModalOpen()"
+      (close)="closeModals(); router.navigate(['/categorias'])"
+      (confirm)="onDeactivateConfirm($event)"
+    />
+
+    <app-category-delete-modal
+      [category]="selectedCategory()!"
+      [isOpen]="deleteModalOpen()"
+      (close)="closeModals(); router.navigate(['/categorias'])"
+      (confirm)="onDeleteConfirm($event)"
+    />
+  }
+</div>
+

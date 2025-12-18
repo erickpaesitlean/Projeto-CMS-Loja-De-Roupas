@@ -1,0 +1,135 @@
+<main class="crm-content">
+  @if (loading()) {
+      <div class="state state-loading">
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <p>Carregando dados...</p>
+      </div>
+  } @else if (error()) {
+      <div class="state state-error" role="alert">
+        <p>{{ error() }}</p>
+        <button class="retry-btn" (click)="carregarDados()" type="button">Tentar novamente</button>
+      </div>
+  } @else {
+      <section class="section">
+        <app-cards-resumo [kpis]="kpis()" />
+      </section>
+
+      <!-- ALERTAS -->
+      <section class="section">
+        <div class="panel panel-table">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <h2>Alertas</h2>
+              <span class="panel-hint">
+                {{ alertas().length }} alerta(s) no total • clique em uma linha para resolver
+              </span>
+            </div>
+            <div class="panel-header-right">
+              <button class="btn-ghost" type="button" (click)="carregarDados()">
+                <app-icon name="refresh" [size]="18" />
+                <span>Atualizar</span>
+              </button>
+            </div>
+          </div>
+
+          @if (alertasRecentes().length === 0) {
+          <div class="empty-state">
+            <app-icon name="info" [size]="36" color="#cbd5e1" />
+            <p>Nenhum alerta no momento</p>
+          </div>
+          } @else {
+          <div class="table-wrap" role="region" aria-label="Lista de alertas">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width: 140px;">Tipo</th>
+                  <th>Problema</th>
+                  <th style="width: 170px;">Data</th>
+                  <th style="width: 120px; text-align: right;">Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (alerta of alertasRecentes(); track alerta.id) {
+                <tr class="row-clickable" (click)="resolverAlerta(alerta)">
+                  <td>
+                    <div class="type">
+                      <span class="type-icon" aria-hidden="true">
+                        <app-icon [name]="getTipoAlertaIcon(alerta.tipo)" [size]="18" />
+                      </span>
+                      <span [class]="getTipoAlertaBadgeClass(alerta.tipo)">{{ getTipoAlertaLabel(alerta.tipo) }}</span>
+                    </div>
+                  </td>
+                  <td class="cell-main">
+                    <div class="cell-title">{{ alerta.titulo }}</div>
+                    <div class="cell-sub">{{ alerta.descricao }}</div>
+                  </td>
+                  <td class="cell-date">{{ formatarData(alerta.dataHora) }}</td>
+                  <td class="cell-action">
+                    <button class="btn-link" type="button" (click)="resolverAlerta(alerta, $event)">Resolver</button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          }
+        </div>
+      </section>
+
+      <!-- ÚLTIMO USUÁRIO LOGADO -->
+      <section class="section">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <h2>Último usuário logado</h2>
+              <span class="panel-hint">Atividade da última sessão registrada</span>
+            </div>
+          </div>
+
+          @if (ultimoUsuarioLogado()) {
+          <div class="last-user">
+            <div class="last-user-avatar" aria-hidden="true">
+              <app-icon name="user" [size]="20" color="#ffffff" />
+            </div>
+            <div class="last-user-meta">
+              <div class="last-user-name">{{ ultimoUsuarioLogado()!.nome }}</div>
+              <div class="last-user-role">{{ ultimoUsuarioLogado()!.cargo || 'Colaborador' }}</div>
+            </div>
+          </div>
+
+          <div class="activity">
+            <div class="activity-title">Ações realizadas</div>
+
+            @if (logs().length === 0) {
+            <div class="empty-state">
+              <p>Nenhuma ação registrada para este usuário</p>
+            </div>
+            } @else {
+            <div class="activity-list">
+              @for (log of logs(); track log.id) {
+              <div class="activity-item">
+                <div class="activity-icon" aria-hidden="true">
+                  <app-icon [name]="getIconePorTipo(log.tipo)" [size]="18" color="#64748b" />
+                </div>
+                <div class="activity-content">
+                  <div class="activity-desc">{{ log.descricao }}</div>
+                  <div class="activity-meta">
+                    <span class="pill">{{ log.entidade }}</span>
+                    <span class="dot" aria-hidden="true">•</span>
+                    <span class="muted">{{ formatarData(log.dataHora) }}</span>
+                  </div>
+                </div>
+              </div>
+              }
+            </div>
+            }
+          </div>
+          } @else {
+          <div class="empty-state">
+            <p>Nenhum usuário logado recentemente</p>
+          </div>
+          }
+        </div>
+      </section>
+  }
+</main>
