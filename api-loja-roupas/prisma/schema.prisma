@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Colaborador {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String   @unique
+  senha     String
+  status    String   @default("ativo") // 'ativo' | 'inativo'
+  cargo     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  logs Log[]
+
+  @@map("colaboradores")
+}
+
+model Categoria {
+  id             Int        @id @default(autoincrement())
+  nome           String
+  descricao      String
+  slug           String     @unique
+  categoriaPaiId Int?
+  status         String     @default("ATIVA") // 'ATIVA' | 'INATIVA'
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  categoriaPai   Categoria? @relation("CategoriaHierarquia", fields: [categoriaPaiId], references: [id])
+  categoriasFilhas Categoria[] @relation("CategoriaHierarquia")
+  produtos       Produto[]
+
+  @@map("categorias")
+}
+
+model Loja {
+  id                    Int      @id @default(autoincrement())
+  nome                  String
+  tipo                  String   // 'FISICA' | 'ONLINE'
+  logradouro            String?
+  numero                String?
+  complemento           String?
+  bairro                String?
+  cidade                String?
+  estado                String?
+  cep                   String?
+  horarioFuncionamento  String
+  status                String   @default("ATIVA") // 'ATIVA' | 'INATIVA'
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  estoques ProdutoEstoque[]
+
+  @@map("lojas")
+}
+
+model Produto {
+  id                Int      @id @default(autoincrement())
+  nome              String
+  descricao         String
+  categoriaId       Int
+  preco             Decimal  @db.Decimal(10, 2)
+  precoPromocional  Decimal? @db.Decimal(10, 2)
+  sku               String   @unique
+  codigoBarras      String   @unique
+  tamanhos          String[] // Array de strings
+  cores             String[] // Array de strings
+  imagens           String[] // Array de URLs
+  status            String   @default("INATIVO") // 'ATIVO' | 'INATIVO'
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  categoria         Categoria @relation(fields: [categoriaId], references: [id])
+  estoques          ProdutoEstoque[]
+
+  @@map("produtos")
+}
+
+model ProdutoEstoque {
+  id         Int     @id @default(autoincrement())
+  produtoId  Int
+  lojaId     Int
+  quantidade Int     @default(0)
+
+  produto    Produto @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  loja       Loja    @relation(fields: [lojaId], references: [id], onDelete: Cascade)
+
+  @@unique([produtoId, lojaId])
+  @@map("produto_estoque")
+}
+
+model Log {
+  id          Int       @id @default(autoincrement())
+  tipo        String    // 'create' | 'edit' | 'update' | 'delete' | 'inactive' | 'active' | 'move'
+  entidade    String
+  descricao   String
+  dataHora    DateTime  @default(now())
+  usuarioId   Int?
+  usuarioNome String?
+
+  usuario     Colaborador? @relation(fields: [usuarioId], references: [id])
+
+  @@map("logs")
+}
+
+model Alerta {
+  id        Int      @id @default(autoincrement())
+  tipo      String   // 'info' | 'warning' | 'error'
+  titulo    String
+  descricao String
+  dataHora  DateTime @default(now())
+
+  @@map("alertas")
+}
